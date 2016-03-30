@@ -186,7 +186,7 @@
                                 <li><a href="/proximo_anho/#go_here">Próximo año</a></li>
                             </ul>
                         </li>
-{#                        <li><a href="/contactenos/#go_here">Contáctenos</a></li>#}
+                        {#                        <li><a href="/contactenos/#go_here">Contáctenos</a></li>#}
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Newsletter</a>
                             <ul class="dropdown-menu" role="menu">
@@ -251,7 +251,7 @@
                                 <div class="slider_article">
                                     <h2><a class="slider_tittle">{{ x.0 }}</a></h2>
 
-                                    {{ x.1|safe }}
+                                    <p>{{ x.1|safe }}</p>
                                 </div>
                             </div>
                         {% endfor %}
@@ -298,9 +298,10 @@
                                             <figcaption>
                                                 <a href="{{ primer_bloque.0.3 }}#go_here">{{ primer_bloque.0.0 }}</a>
                                             </figcaption>
-                                            {{ primer_bloque.0.1|safe }}<a
-                                                href="{{ primer_bloque.0.3 }}#go_here">... +
-                                            Ver más</a>
+                                            <p>{{ primer_bloque.0.1|safe }}<a
+                                                    href="{{ primer_bloque.0.3 }}#go_here">... +
+                                                Ver más</a>
+                                            </p>
                                         </figure>
                                     </li>
                                 </ul>
@@ -318,9 +319,9 @@
                                             <figcaption>
                                                 <a href="{{ primer_bloque.1.3 }}#go_here">{{ primer_bloque.1.0 }}</a>
                                             </figcaption>
-                                            {{ primer_bloque.1.1|safe }}<a
-                                                href="{{ primer_bloque.1.3 }}#go_here">... +
-                                            Ver más</a>
+                                            <p>{{ primer_bloque.1.1|safe }}<a
+                                                    href="{{ primer_bloque.1.3 }}#go_here">... +
+                                                Ver más</a></p>
                                         </figure>
                                     </li>
                                 </ul>

@@ -6,8 +6,7 @@ from django.core.exceptions import ValidationError
 from django.utils.timezone import now
 from tinymce import models as tinymce_models
 from django.conf import settings
-from BuenViajeWebPage.date_utils import edit_fecha, edit_fecha_evento
-from BuenViajeWebPage.views import fix_month
+from BuenViajeWebPage.date_utils import edit_fecha, edit_fecha_evento, fix_month
 
 choices = [('principal', 'Principal'),
            ('p_bloque', 'Primer Bloque'),
@@ -513,7 +512,7 @@ class Blog(models.Model):
 
     en_nombre = models.CharField(verbose_name='Nombre en Ingles', max_length=100, help_text='Nombre del blog en Ingles')
 
-    imagen = ImageField(verbose_name='Foto', upload_to='blog', help_text='Foto del blog')
+    # imagen = ImageField(verbose_name='Foto', upload_to='blog', help_text='Foto del blog')
 
     def __str__(self):
         return self.nombre
@@ -536,8 +535,7 @@ class Noticia(models.Model):
 
     slug = models.SlugField(verbose_name='Slug', max_length=200, help_text='Este campo no se edita')
 
-    imagen = ImageField(verbose_name='Foto', upload_to='noticias', help_text='Foto de la noticia', null=True,
-                        blank=True)
+    imagen = ImageField(verbose_name='Foto', upload_to='noticias', help_text='Foto de la noticia')
 
     short_text = tinymce_models.HTMLField(verbose_name='Descripcion corta', max_length=200,
                                           help_text='Breve descripcion de la noticia')
@@ -563,7 +561,9 @@ class Noticia(models.Model):
                                          help_text='Si una noticia puede ser comentada')
 
     position = models.CharField(verbose_name=u'Posición', choices=choices, max_length=20,
-                                help_text=u'Define la posición en que será mostrada en la página principal')
+                                help_text=u'Define la posición en que será mostrada en la página principal (Este campo es obligatorio para noticias que no pertenecen a ningún blog)',
+                                null=True,
+                                blank=True)
 
     show = models.BooleanField(verbose_name=u'Mostrar', default=True,
                                help_text=u'Define si una noticia será mostrada')
@@ -586,11 +586,17 @@ class Noticia(models.Model):
     def __str__(self):
         return self.titulo
 
+    def clean(self):
+        if not self.blog and not self.position:
+            raise ValidationError({'position': 'La noticia debe tener una posición'})
+
     def save(self, *args, **kwargs):
         settings.NEED_TO_RECALCULATE = True
         print(settings.NEED_TO_RECALCULATE)
         self.short_text = self.short_text.split('>', 1)[1].rsplit('<', 1)[0]
         self.en_short_text = self.en_short_text.split('>', 1)[1].rsplit('<', 1)[0]
+        if not self.blog and not self.position:
+            return ValidationError('La noticia debe tener una posición')
         super(Noticia, self).save(*args, **kwargs)
         # views.recalculate_all_data()
 
