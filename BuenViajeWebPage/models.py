@@ -7,6 +7,8 @@ from django.utils.timezone import now
 from tinymce import models as tinymce_models
 from django.conf import settings
 from BuenViajeWebPage.date_utils import edit_fecha, edit_fecha_evento, fix_month
+from django.utils.text import slugify
+from autoslug import AutoSlugField
 
 choices = [('principal', 'Principal'),
            ('p_bloque', 'Primer Bloque'),
@@ -533,7 +535,9 @@ class Noticia(models.Model):
     en_titulo = models.CharField(verbose_name='Título en Ingles', max_length=100,
                                  help_text='Título de la noticia en Ingles')
 
-    slug = models.SlugField(verbose_name='Slug', max_length=200, help_text='Este campo no se edita')
+    # slug = models.SlugField(verbose_name='Slug', max_length=200, help_text='Este campo no se edita')
+
+    slug = AutoSlugField(populate_from='titulo', unique=True)
 
     imagen = ImageField(verbose_name='Foto', upload_to='noticias', help_text='Foto de la noticia')
 
@@ -593,8 +597,15 @@ class Noticia(models.Model):
     def save(self, *args, **kwargs):
         settings.NEED_TO_RECALCULATE = True
         print(settings.NEED_TO_RECALCULATE)
-        self.short_text = self.short_text.split('>', 1)[1].rsplit('<', 1)[0]
-        self.en_short_text = self.en_short_text.split('>', 1)[1].rsplit('<', 1)[0]
+        # print('Titulo %s, slug %s' % (self.titulo, self.slug))
+        if self.slug:
+            self.slug = slugify(self.titulo)
+        # print('Titulo %s, slug %s' % (self.titulo, self.slug))
+        try:
+            self.short_text = self.short_text.split('>', 1)[1].rsplit('<', 1)[0]
+            self.en_short_text = self.en_short_text.split('>', 1)[1].rsplit('<', 1)[0]
+        except IndexError:
+            pass
         if not self.blog and not self.position:
             return ValidationError('La noticia debe tener una posición')
         super(Noticia, self).save(*args, **kwargs)

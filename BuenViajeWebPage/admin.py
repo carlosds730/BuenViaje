@@ -27,7 +27,7 @@ class KeywordAdmin(admin.ModelAdmin):
 class NoticiaInline(admin.StackedInline):
     model = models.Noticia
     extra = 1
-    prepopulated_fields = {'slug': ('titulo',)}
+    # prepopulated_fields = {'slug': ('titulo',)}
 
 
 class ComentarioNoticiasInline(admin.StackedInline):
@@ -148,7 +148,7 @@ class AdminNoticia(AdminImageMixin, admin.ModelAdmin):
     list_display = ('titulo', 'fecha_publicacion', 'admin_blog', 'Numero_comentarios')
     search_fields = ['titulo', 'blog__nombre', 'fecha_publicacion']
     filter_horizontal = ['related_news']
-    prepopulated_fields = {'slug': ('titulo',)}
+    # prepopulated_fields = {'slug': ('titulo',)}
     date_hierarchy = 'fecha_publicacion'
 
     def Numero_comentarios(self, obj):
