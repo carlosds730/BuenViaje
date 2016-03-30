@@ -39,9 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.webdesign',
     'newsletter',
     'sorl.thumbnail',
+    'BuenViajeWebPage',
     'tinymce',
-    'django_extensions',
-    'BuenViajeWebPage'
+    'django_extensions'
+
 ]
 
 MIDDLEWARE_CLASSES = [
