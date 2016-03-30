@@ -1,4 +1,4 @@
-{% load url from future %}{% load thumbnail %}
+{% load thumbnail %}
 {% load staticfiles %}
 
 <!doctype html>
@@ -21,18 +21,27 @@
                                cellpadding="0"
                                style="mso-table-lspace:0px; mso-table-rspace:0px; border-collapse:collapse; border-spacing:0px; border-bottom:4px solid #ffdf42">
                             <tr>
-                                <td width="107" height="124"><img style="display:block" src="{{ sitio }}/static/img/top-left.jpg" width="107" height="124"/></td>
-                                <td width="222" height="124"><img style="display:block" src="{{ sitio }}/static/img/top-right.jpg" width="222" height="124"/></td>
+                                <td width="107" height="124"><img style="display:block"
+                                                                  src="{{ sitio }}{% static 'img/top-left.jpg' %}"
+                                                                  width="107" height="124"/></td>
+                                <td width="222" height="124"><img style="display:block"
+                                                                  src="{{ sitio }}{% static 'img/top-right.jpg' %}"
+                                                                  width="222"
+                                                                  height="124"/></td>
                                 <td width="470" height="150" rowspan="2">
                                     {% if newspict %}
-                                        <img style="display:block" src="{{ sitio }}{{ newspict.url }}" width="470" height="150">
+                                        <img style="display:block" src="{{ sitio }}{{ newspict.url }}" width="470"
+                                             height="150">
                                     {% else %}
-                                        <img style="display:block" src="{{ sitio }}/static/img/banner.jpg" width="470" height="150"/>
+                                        <img style="display:block" src="{{ sitio }}{% static 'img/banner.jpg' %}"
+                                             width="470"
+                                             height="150"/>
                                     {% endif %}
                                 </td>
                             </tr>
                             <tr>
-                                <td height="26"><img style="display:block" src="{{ sitio }}/static/img/bottom-left.jpg" width="107"
+                                <td height="26"><img style="display:block" src="{{ sitio }}/static/img/bottom-left.jpg"
+                                                     width="107"
                                                      height="26" alt=""/></td>
                                 <td width="222" height="26"
                                     style="font-family:Helvetica; font-size:16px; color:#ffffff; font-weight:normal "
@@ -80,7 +89,8 @@
                                                     {% with message.articles.all.0 as article %}
                                                         {% with article.get_width_top as article_img %}
                                                             <img style="border: 5px solid #FFF; box-shadow:5px 5px 5px 0px #b4b4b4"
-                                                                 src="{{ sitio }}{{ article_img.0.url }}" width="{{ article_img.1 }}"
+                                                                 src="{{ sitio }}{{ article_img.0.url }}"
+                                                                 width="{{ article_img.1 }}"
                                                                  height="{{ article_img.2 }}">
                                                         {% endwith %}
                                                     {% endwith %}
@@ -99,7 +109,7 @@
                                                 style="font-family:Helvetica; font-size:12px; font-weight:normal;line-height:12.8pt">
                                                 {% if message.articles.all.0 %}
                                                     {% with message.articles.all.0 as article %}
-                                                        {{ article.text|safe }}...
+                                                        {{ article.text|safe }}
                                                         <a style="font-family:Helvetica;font-style: italic;font-size:12px; font-weight:normal;color:#4382c3"
                                                            href="{{ article.url }}"><span
                                                                 style="color: #4382c3">Leer más</span></a>
@@ -128,7 +138,8 @@
                                                     {% with message.articles.all.1 as article %}
                                                         {% with article.get_width_top as article_img %}
                                                             <img style="border: 5px solid #ffffff; box-shadow:5px 5px 5px 0px #b4b4b4"
-                                                                 src="{{ sitio }}{{ article_img.0.url }}" width="{{ article_img.1 }}"
+                                                                 src="{{ sitio }}{{ article_img.0.url }}"
+                                                                 width="{{ article_img.1 }}"
                                                                  height="{{ article_img.2 }}">
                                                         {% endwith %}
                                                     {% endwith %}
@@ -147,7 +158,7 @@
                                                 style="vertical-align:top; font-family:Helvetica; font-size:12px; font-weight:normal;line-height:12.8pt;">
                                                 {% if message.articles.all.1 %}
                                                     {% with message.articles.all.1 as article %}
-                                                        {{ article.text|safe }}...
+                                                        {{ article.text|safe }}
                                                         <a style="font-family:Helvetica;font-style: italic;font-size:12px; font-weight:normal;color:#4382c3"
                                                            href="{{ article.url }}"><span
                                                                 style="color: #4382c3">Leer más</span></a>
@@ -176,7 +187,8 @@
                                                     {% with message.articles.all.2 as article %}
                                                         {% with article.get_width_top as article_img %}
                                                             <img style="border: 5px solid #ffffff; box-shadow:5px 5px 5px 0px #b4b4b4"
-                                                                 src="{{ sitio }}{{ article_img.0.url }}" width="{{ article_img.1 }}"
+                                                                 src="{{ sitio }}{{ article_img.0.url }}"
+                                                                 width="{{ article_img.1 }}"
                                                                  height="{{ article_img.2 }}">
                                                         {% endwith %}
                                                     {% endwith %}
@@ -194,7 +206,7 @@
                                                 style="vertical-align:top; font-family:Helvetica; font-size:12px; font-weight:normal;line-height:12.8pt;">
                                                 {% if message.articles.all.2 %}
                                                     {% with message.articles.all.2 as article %}
-                                                        {{ article.text|safe }}...
+                                                        {{ article.text|safe }}
                                                         <a style="font-family:Helvetica;font-style: italic;font-size:12px; font-weight:normal;color:#4382c3"
                                                            href="{{ article.url }}"><span
                                                                 style="color: #4382c3">Leer más</span></a>
@@ -381,7 +393,8 @@
                                                         {% with message.articles.all.3 as article %}
                                                             {% with article.get_width_top as article_img %}
                                                                 <img style="border: 5px solid #FFF; box-shadow:5px 5px 5px 0px #b4b4b4"
-                                                                     src="{{ sitio }}{{ article_img.0.url }}" width="{{ article_img.1 }}"
+                                                                     src="{{ sitio }}{{ article_img.0.url }}"
+                                                                     width="{{ article_img.1 }}"
                                                                      height="{{ article_img.2 }}">
                                                             {% endwith %}
                                                         {% endwith %}
@@ -400,7 +413,7 @@
                                                     style="font-family:Helvetica; font-size:12px; font-weight:normal;line-height:14.8pt">
                                                     {% if message.articles.all.3 %}
                                                         {% with message.articles.all.3 as article %}
-                                                            {{ article.text|safe }}...
+                                                            {{ article.text|safe }}
                                                             <a style="font-family:Helvetica;font-style: italic;font-size:12px; font-weight:normal;color:#4382c3"
                                                                href="{{ article.url }}"><span
                                                                     style="color: #4382c3">Leer más</span></a>
@@ -410,7 +423,8 @@
                                             </tr>
                                             <tr>
                                                 <td height="17px" colspan="2"
-                                                    style="border-bottom:1px solid #4382c3;vertical-align:top">&nbsp;</td>
+                                                    style="border-bottom:1px solid #4382c3;vertical-align:top">
+                                                    &nbsp;</td>
                                             </tr>
                                             <tr>
                                                 <td colspan="4" height="33"
@@ -429,7 +443,8 @@
                                                         {% with message.articles.all.4 as article %}
                                                             {% with article.get_width_top as article_img %}
                                                                 <img style="border: 5px solid #ffffff; box-shadow:5px 5px 5px 0px #b4b4b4"
-                                                                     src="{{ sitio }}{{ article_img.0.url }}" width="{{ article_img.1 }}"
+                                                                     src="{{ sitio }}{{ article_img.0.url }}"
+                                                                     width="{{ article_img.1 }}"
                                                                      height="{{ article_img.2 }}">
                                                             {% endwith %}
                                                         {% endwith %}
@@ -448,7 +463,7 @@
                                                     style="vertical-align:top; font-family:Helvetica; font-size:12px; font-weight:normal;line-height:14.8pt;">
                                                     {% if message.articles.all.4 %}
                                                         {% with message.articles.all.4 as article %}
-                                                            {{ article.text|safe }}...
+                                                            {{ article.text|safe }}
                                                             <a style="font-family:Helvetica;font-style: italic;font-size:12px; font-weight:normal;color:#4382c3"
                                                                href="{{ article.url }}"><span
                                                                     style="color: #4382c3">Leer más</span></a>
@@ -458,7 +473,8 @@
                                             </tr>
                                             <tr>
                                                 <td height="17px" colspan="2"
-                                                    style="border-bottom:1px solid #4382c3;vertical-align:top">&nbsp;</td>
+                                                    style="border-bottom:1px solid #4382c3;vertical-align:top">
+                                                    &nbsp;</td>
                                             </tr>
                                             <tr>
                                                 <td colspan="4" height="33"
@@ -477,7 +493,8 @@
                                                         {% with message.articles.all.5 as article %}
                                                             {% with article.get_width_top as article_img %}
                                                                 <img style="border: 5px solid #ffffff; box-shadow:5px 5px 5px 0px #b4b4b4"
-                                                                     src="{{ sitio }}{{ article_img.0.url }}" width="{{ article_img.1 }}"
+                                                                     src="{{ sitio }}{{ article_img.0.url }}"
+                                                                     width="{{ article_img.1 }}"
                                                                      height="{{ article_img.2 }}">
                                                             {% endwith %}
                                                         {% endwith %}
@@ -496,7 +513,7 @@
                                                     style="vertical-align:top; font-family:Helvetica; font-size:12px; font-weight:normal;line-height:14.8pt;">
                                                     {% if message.articles.all.5 %}
                                                         {% with message.articles.all.5 as article %}
-                                                            {{ article.text|safe }}...
+                                                            {{ article.text|safe }}
                                                             <a style="font-family:Helvetica;font-style: italic;font-size:12px; font-weight:normal;color:#4382c3"
                                                                href="{{ article.url }}"><span
                                                                     style="color: #4382c3">Leer más</span></a>
@@ -585,11 +602,15 @@
                                             {% if publi.url %}
 
                                                 {% thumbnail publi.image '375x96' as image %}
-                                                    <a href={{ publi.url }}><img style="display:block" src="{{ sitio }}{{ image.url }}" width="375" height="96" alt="Publicidad de {{ publi.title }}"></a>
+                                                    <a href={{ publi.url }}><img style="display:block"
+                                                                                 src="{{ sitio }}{{ image.url }}"
+                                                                                 width="375" height="96"
+                                                                                 alt="Publicidad de {{ publi.title }}"></a>
                                                 {% endthumbnail %}
                                             {% else %}
                                                 {% thumbnail publi.image '375x96' as image %}
-                                                    <img style="display:block" src="{{ sitio }}{{ image.url }}" width="375" height="96" alt="Publicidad de {{ publi.title }}">
+                                                    <img style="display:block" src="{{ sitio }}{{ image.url }}"
+                                                         width="375" height="96" alt="Publicidad de {{ publi.title }}">
                                                 {% endthumbnail %}
                                             {% endif %}
                                         {% endwith %}
@@ -601,7 +622,10 @@
                                     {% if message.publicities.all.4 %}
                                         {% with message.publicities.all.5 as publi %}
                                             {% thumbnail publi.image '375x96' as image %}
-                                                <a href={{ publi.url }}><img style="display:block" src="{{ sitio }}{{ image.url }}" width="375" height="96" alt="Publicidad de {{ publi.title }}"></a>
+                                                <a href={{ publi.url }}><img style="display:block"
+                                                                             src="{{ sitio }}{{ image.url }}"
+                                                                             width="375" height="96"
+                                                                             alt="Publicidad de {{ publi.title }}"></a>
                                             {% endthumbnail %}
                                         {% endwith %}
                                     {% endif %}
@@ -619,7 +643,8 @@
                         2015 © Buen Viaje a Cuba
                         <br/>
                         Publicidad: <a style="color: #0000CC"
-                                       href="mailto:publicidad@buenviajeacuba.com">publicidad@buenviajeacuba.com</a>&nbsp; &nbsp;
+                                       href="mailto:publicidad@buenviajeacuba.com">publicidad@buenviajeacuba.com</a>&nbsp;
+                        &nbsp;
                         Información: <a href="mailto:info@buenviajeacuba.com"><span style="color:#0000CC">info@buenviajeacuba.com</span></a>
                         <br/>
                         Suscripciones: <a href="mailto:buenviajeacuba@buenviajeacuba.com"><span style="color:#0000CC">buenviajeacuba@buenviajeacuba.com</span></a>

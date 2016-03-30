@@ -12,16 +12,18 @@ from django.core import serializers
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, Http404
-from django.template import Context
-from django.shortcuts import render
+from django.template import Context, RequestContext
+from django.shortcuts import render, render_to_response
 from django.utils.translation import ugettext as _, ungettext
 from django.utils.formats import date_format
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from django.views.i18n import javascript_catalog
+import sorl.thumbnail
 from sorl.thumbnail.admin import AdminImageMixin
 from .models import (
-    Newsletter, Subscription, Article, Message, Submission
+    Newsletter, Subscription, Article, Message, Submission, Publicity
 )
+from newsletter.wrapper import WrapperRSS
 from django.utils.timezone import now
 from .admin_forms import (
     SubmissionAdminForm, SubscriptionAdminForm, ImportForm, ConfirmForm
@@ -40,7 +42,7 @@ ICON_URLS = {
 
 class NewsletterAdmin(admin.ModelAdmin):
     list_display = (
-        'title', 'admin_subscriptions', 'admin_messages', 'admin_submissions'
+        'title', 'admin_messages', 'admin_subscriptions', 'admin_submissions'
     )
     prepopulated_fields = {'slug': ('title',)}
 
@@ -48,7 +50,7 @@ class NewsletterAdmin(admin.ModelAdmin):
 
     def admin_messages(self, obj):
         return '<a href="../message/?newsletter__id__exact=%s">%s</a>' % (
-            obj.id, _('Messages')
+            obj.id, _('Mensajes')
         )
 
     admin_messages.allow_tags = True
@@ -57,14 +59,14 @@ class NewsletterAdmin(admin.ModelAdmin):
     def admin_subscriptions(self, obj):
         return \
             '<a href="../subscription/?newsletter__id__exact=%s">%s</a>' % \
-            (obj.id, _('Subscriptions'))
+            (obj.id, _('Suscriptores'))
 
     admin_subscriptions.allow_tags = True
     admin_subscriptions.short_description = ''
 
     def admin_submissions(self, obj):
         return '<a href="../submission/?newsletter__id__exact=%s">%s</a>' % (
-            obj.id, _('Submissions')
+            obj.id, _('Envios')
         )
 
     admin_submissions.allow_tags = True
@@ -155,8 +157,13 @@ class SubmissionAdmin(admin.ModelAdmin, ExtendibleModelAdminMixin):
 
         submission.prepared = True
         submission.save()
+        adm_msg = submission.submit()
+        if adm_msg[1] == 1:
+            messages.info(request, _(adm_msg[0]))
+        else:
+            messages.error(request, _(adm_msg[0]))
 
-        messages.info(request, _("Your submission is being sent."))
+        # messages.info(request, _("Your submission is being sent."))
 
         changelist_url = reverse('admin:newsletter_submission_changelist')
         return HttpResponseRedirect(changelist_url)
@@ -216,7 +223,22 @@ class ArticleInline(AdminImageMixin, StackedInline):
         }
 
 
-class MessageAdmin(admin.ModelAdmin, ExtendibleModelAdminMixin):
+class PublicityInline(AdminImageMixin, StackedInline):
+    model = Publicity
+    extra = 1
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'sortorder', 'image', 'url')
+        }),
+    )
+
+    if newsletter_settings.RICHTEXT_WIDGET:
+        formfield_overrides = {
+            models.TextField: {'widget': newsletter_settings.RICHTEXT_WIDGET},
+        }
+
+
+class MessageAdmin(AdminImageMixin, admin.ModelAdmin, ExtendibleModelAdminMixin):
     save_as = True
     list_display = (
         'admin_title', 'admin_newsletter', 'admin_preview', 'date_create',
@@ -226,7 +248,7 @@ class MessageAdmin(admin.ModelAdmin, ExtendibleModelAdminMixin):
     date_hierarchy = 'date_create'
     prepopulated_fields = {'slug': ('title',)}
 
-    inlines = [ArticleInline, ]
+    inlines = [ArticleInline, PublicityInline]
 
     """ List extensions """
 
@@ -242,6 +264,12 @@ class MessageAdmin(admin.ModelAdmin, ExtendibleModelAdminMixin):
     admin_preview.short_description = ''
     admin_preview.allow_tags = True
 
+    def admin_rss(self, obj):
+        return '<a href="/rss/">%s</a>' % (_('Rss'))
+
+    admin_rss.short_description = ''
+    admin_rss.allow_tags = True
+
     def admin_newsletter(self, obj):
         return '<a href="../newsletter/%s/">%s</a>' % (
             obj.newsletter.id, obj.newsletter
@@ -251,6 +279,29 @@ class MessageAdmin(admin.ModelAdmin, ExtendibleModelAdminMixin):
     admin_newsletter.allow_tags = True
 
     """ Views """
+
+    def messages_rss(self, request, object_id):
+        if request.POST:
+            wraper = None
+            choice = request.POST['choice']
+            if int(choice):
+                wraper = WrapperRSS('http://www.ain.cu/?format=feed&type=rss')
+            else:
+                wraper = WrapperRSS('http://www.cubadebate.cu/feed/')
+            res = wraper.get_news()
+            message = Message.objects.get(pk=int(object_id))
+            for values in res:
+                message.articles.add(Article(title=values[0], text=values[1], url=values[2]))
+            message.save()
+            return HttpResponseRedirect('/admin/newsletter/message/' + str(object_id) + '/change/')
+        else:
+            form = ['CubaDebate', 'AIN']
+
+        return render_to_response(
+            "admin/newsletter/message/rssform.html",
+            {'form': form},
+            RequestContext(request, {}),
+        )
 
     def preview(self, request, object_id):
         return render(
@@ -272,12 +323,30 @@ class MessageAdmin(admin.ModelAdmin, ExtendibleModelAdminMixin):
                 'message belongs to.'
             ))
 
+        # print (message.get_default_id())
+        simple = False
+        if message.publicities.all().__len__() < 7:
+            simple = True
+
+        news_pict = False
+
+        try:
+            new_image = sorl.thumbnail.get_thumbnail(message.image, '470x150')
+            news_pict = new_image
+        except:
+            news_pict = False
+        print(Site.objects.get_current())
         c = Context({'message': message,
+                     'issue': message.get_default(),
                      'site': Site.objects.get_current(),
+                     'sitio': settings.WEB_PAGE_URL,
                      'newsletter': message.newsletter,
                      'date': now(),
                      'STATIC_URL': settings.STATIC_URL,
-                     'MEDIA_URL': settings.MEDIA_URL})
+                     'MEDIA_URL': settings.MEDIA_URL,
+                     'simple': simple,
+                     'newspict': news_pict,
+                     })
 
         return HttpResponse(html_template.render(c))
 
@@ -333,6 +402,9 @@ class MessageAdmin(admin.ModelAdmin, ExtendibleModelAdminMixin):
             url(r'^(.+)/submit/$',
                 self._wrap(self.submit),
                 name=self._view_name('submit')),
+            url(r'^(.+)/rss/$',
+                self._wrap(self.messages_rss),
+                name=self._view_name('rss')),
             url(r'^(.+)/subscribers/json/$',
                 self._wrap(self.subscribers_json),
                 name=self._view_name('subscribers_json')),

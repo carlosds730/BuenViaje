@@ -5,12 +5,12 @@
 {% block object-tools %}
     {% if change %}{% if not is_popup %}
         <ul class="object-tools">
-            <li><a href="history/" class="historylink">{% trans "History" %}</a></li>
-            <li><a href="rss/" class="historylink">{% trans "RSS" %}</a></li>
+            <li><a href="{% url 'admin:newsletter_message_history' object_id %}"
+                   class="historylink">{% trans "History" %}</a></li>
+            <li><a href="{% url 'admin:newsletter_message_rss' object_id %}" class="historylink">{% trans "RSS" %}</a></li>
             {% if has_absolute_url %}
-                <li><a href="../../../r/{{ content_type_id }}/{{ object_id }}/"
-                       class="viewsitelink">{% trans "View on site" %}</a></li>{% endif %}
-            <li><a href="preview/">{% trans "Preview" %}</a></li>
+                <li><a href="{{ absolute_url }}" class="viewsitelink">{% trans "Ver en el sitio" %}</a></li>{% endif %}
+            <li><a href="{% url 'admin:newsletter_message_preview' object_id %}">{% trans "Vista previ" %}</a></li>
             {% comment <li><a href="../../../submission/add/?message_id={{ message.id }}">{% trans "Prepare submission" %}</a></li>{% endcomment %}
         </ul>
     {% endif %}{% endif %}

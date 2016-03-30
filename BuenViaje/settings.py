@@ -36,10 +36,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'tinymce',
-    # 'django_extensions',
-    'sorl.thumbnail',
     'newsletter',
+    'sorl.thumbnail',
+    'tinymce',
+    'django_extensions',
     'BuenViajeWebPage'
 ]
 
@@ -120,7 +120,39 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# URL that handles the media served from MEDIA_ROOT. Make sure to use a
+# trailing slash.
+# Examples: "http://example.com/media/", "http://media.example.com/"
+MEDIA_URL = '/media/'
+
+# Absolute path to the directory static files should be collected to.
+# Don't put anything in this directory yourself; store your static files
+# in apps' "static/" subdirectories and in STATICFILES_DIRS.
+# Example: "/var/www/example.com/sttic/"
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# URL prefix for static files.
+# Example: "http://example.com/static/", "http://static.example.com/"
 STATIC_URL = '/static/'
+
+# EMAIL SETTINGS
+EMAIL_HOST = 'mail.buenviajeacuba.com'
+
+EMAIL_HOST_USER = 'buenviajeacuba@buenviajeacuba.com'
+
+EMAIL_PORT = 587
+
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_PASSWORD = 'irv1974'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'emails')  # change this to a proper location
 
 # NEWSLETTER SETTINGS
 NEWSLETTER_CONFIRM_EMAIL = False
@@ -140,4 +172,12 @@ TINYMCE_DEFAULT_CONFIG = {
 # OTHER SETTINGS
 THUMBNAIL_ENGINE = 'sorl.thumbnail.engines.wand_engine.Engine'
 
+THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.cached_db_kvstore.KVStore'
+
+THUMBNAIL_DEBUG = True
+
 SITE_ID = 1
+
+WEB_PAGE_URL = ""
+
+# WEB_PAGE_URL = "http://www.buenviajeacuba.com"

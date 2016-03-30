@@ -15,7 +15,6 @@ from django.utils.translation import ugettext
 from django.utils.timezone import now
 import sorl.thumbnail
 from sorl.thumbnail import ImageField
-from BuenViaje import settings as bSettings
 from .utils import (
     make_activation_code, get_default_sites, ACTIONS
 )
@@ -447,13 +446,12 @@ class Article(models.Model):
     text = models.TextField(verbose_name=_('texto'))
 
     url = models.URLField(
-        verbose_name=_('link'), blank=True, null=True
+        verbose_name=_('link'), default='http://www.buenviajeacuba.com'
     )
 
     # Make this a foreign key for added elegance
     image = ImageField(
-        upload_to='newsletter/images/%Y/%m/%d', blank=True, null=True,
-        verbose_name=_('image')
+        upload_to='newsletter/images/%Y/%m/%d', verbose_name=_('image')
     )
 
     # Message this article is associated with
@@ -479,6 +477,7 @@ class Article(models.Model):
             # If saving a new object get the next available Article ordering
             # as to assure uniqueness.
             self.sortorder = Article.get_next_order()
+        self.text = self.text.split('>', 1)[1].rsplit('<', 1)[0]
         super(Article, self).save()
 
 
@@ -510,14 +509,13 @@ class Publicity(models.Model):
     )
 
     title = models.CharField(max_length=200, verbose_name=_('title'))
-    text = models.TextField(verbose_name=_('text'), default="a")
     url = models.URLField(
-        verbose_name=_('link'), blank=False, null=False
+        verbose_name=_('link')
     )
 
     # Make this a foreign key for added elegance
     image = ImageField(
-        upload_to='newsletter/images/%Y/%m/%d', blank=False, null=False,
+        upload_to='newsletter/images/%Y/%m/%d',
         verbose_name=_('image')
     )
 
@@ -659,7 +657,7 @@ class Submission(models.Model):
 
                 same_variable_dict = {
                     'site': Site.objects.get_current(),
-                    'issue': self.message.get_default_id(),
+                    'issue': self.message.get_default(),
                     'submission': self,
                     'message': self.message,
                     'newsletter': self.newsletter,
@@ -668,9 +666,8 @@ class Submission(models.Model):
                     'newspict': news_pict,
                     'STATIC_URL': settings.STATIC_URL,
                     'MEDIA_URL': settings.MEDIA_URL,
-                    'sitio': bSettings.WEB_PAGE_URL
+                    'sitio': settings.WEB_PAGE_URL
                 }
-                print(bSettings.WEB_PAGE_URL)
 
                 unescaped_context = Context(same_variable_dict, autoescape=False)
 
@@ -718,7 +715,7 @@ class Submission(models.Model):
 
                 connection.close()
                 self.sent = True
-                return 'Submission sent correctly', 1
+                return 'Mensajes enviados con éxito', 1
 
             except Exception as e:
                 logger.error(
@@ -731,7 +728,7 @@ class Submission(models.Model):
                 self.prepared = False
                 self.save()
                 print(e)
-                return 'Submission could not be sent', 0
+                return 'Ocurrieron errores a la hora de enviar los mensajes', 0
 
         finally:
             self.sending = False
