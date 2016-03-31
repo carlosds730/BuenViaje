@@ -26,6 +26,7 @@ if settings.DEBUG:
                           document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [
+    url(r'^numeros-anteriores/(?P<year>\d+)/?$', views.old_revistas),
     url(r'^numeros-anteriores/?$', views.old_revistas),
     url(r'^email_to_send/?$', views.notification),
     url(r'^contactenos/?$',

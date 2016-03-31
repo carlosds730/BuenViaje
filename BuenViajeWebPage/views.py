@@ -935,16 +935,17 @@ def de_cuba(request):
         return render(request, 'de_cuba.html', d)
 
 
-def old_revistas(request):
+def old_revistas(request, year=now().year):
     if settings.NEED_TO_RECALCULATE:
         recalculate_all_data()
         settings.NEED_TO_RECALCULATE = False
 
     if request.method == "GET":
-        try:
-            anho = int(request.GET['anho'])
-        except KeyError:
-            anho = now().year
+        # try:
+        #     anho = int(request.GET['anho'])
+        # except KeyError:
+        #     anho = now().year
+        anho = int(year)
 
         revistas_normal = models.Revista.objects.filter(anho=anho, tipo="Normal").order_by("numero")
         revistas_especial = models.Revista.objects.filter(anho=anho, tipo="Especial").order_by("numero")
@@ -1179,7 +1180,7 @@ def ajax_noticias(request, id):
                     usuario.nombre = nombre
                     usuario.save()
                 except ValidationError:
-                    return HttpResponse(json.dumps({'error': 'mail'}, encoding="utf-8"), 'json')
+                    return HttpResponse(json.dumps({'error': 'mail'}), 'json')
             else:
                 usuario = models.User.objects.create(nombre=nombre)
 
