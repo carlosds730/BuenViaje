@@ -6,7 +6,7 @@ from random import randint
 os.environ['DJANGO_SETTINGS_MODULE'] = 'BuenViaje.settings'
 django.setup()
 
-from BuenViajeWebPage.models import (Noticia, Blog, Publicidades, Seccion, Secciones_Informacion_General,
+from BuenViajeWebPage.models import (Noticia, Blog, Publicidades, Seccion, Secciones_informacion_general,
                                      Seccion_Cuba_Informacion_Destino, Eventos)
 from autofixture import AutoFixture, generators
 
@@ -27,7 +27,7 @@ def generate_random_date(init_date=datetime.now(), end_date=datetime.now()):
 
 # TODO: When blog=False, try to assign the news randomly to a blog or to None
 # TODO: Try to generate random positions
-def generate_news(position, num_par=False, blog=False):
+def generate_news(position, num_par=False, blog=False, size=False):
     """
     :param num_par: indicates the number of paragraphs per news, if False the number is random betwen 1 an 7
     :type num_par: int
@@ -51,13 +51,18 @@ def generate_news(position, num_par=False, blog=False):
     if blog or blog is None:
         field_values.update({'blog': blog})
 
+    if size:
+        field_values.update({'imagen': generators.ImageGenerator(sizes=size)})
+
     return AutoFixture(Noticia, field_values=field_values)
 
 
-def generate_publicitiy(position):
+def generate_publicitiy(position, size=False):
     field_values = {
         'position': position,
     }
+    if size:
+        field_values.update({'imagen': generators.ImageGenerator(sizes=size)})
 
     return AutoFixture(Publicidades, field_values=field_values)
 
@@ -71,6 +76,7 @@ def generate_section(num_par=False):
         'en_titulo': generators.LoremSentenceGenerator(max_length=10, count=50),
         'descripcion': generators.LoremHTMLGenerator(count=num_par),
         'en_descripcion': generators.LoremHTMLGenerator(count=num_par),
+        'image': generators.ImageGenerator(sizes=((185, 245),))
     }
 
     return AutoFixture(Seccion, field_values=field_values)
@@ -86,7 +92,7 @@ def generate_cuba_info_general():
         'en_texto': generators.LoremHTMLGenerator(count=num_par),
     }
 
-    return AutoFixture(Secciones_Informacion_General, field_values=field_values)
+    return AutoFixture(Secciones_informacion_general, field_values=field_values)
 
 
 def generate_destinos(num_par=False):
@@ -123,17 +129,17 @@ def generate_event():
 
 def generate_stuffs():
     # generate_news().create(10)
-    generate_news("principal", blog=None).create(10)
-    generate_news("p_bloque", blog=None).create(10)
-    generate_news("s_bloque", blog=None).create(10)
-    # generate_publicitiy("principal").create(1)
-    # generate_publicitiy("p_bloque").create(9)
-    # generate_publicitiy("s_bloque").create(9)
+    generate_news("principal", blog=None, size=((710, 375),)).create(5)
+    # generate_news("p_bloque", blog=None).create(10)
+    # generate_news("s_bloque", blog=None, size=((130, 100),)).create(10)
+    # generate_publicitiy("principal", size=((594, 61),)).create(1)
+    # generate_publicitiy("p_bloque", size=((272, 140),)).create(9)
+    # generate_publicitiy("s_bloque", size=((272, 100),)).create(9)
 
 
-# generate_section().create(10)
+# generate_section(num_par=1).create(10)
 # generate_cuba_info_general().create(20)
 # generate_destinos().create(15)
-for k in range(0, 50):
-    generate_event().create(1)
-# generate_stuffs()
+# for k in range(0, 50):
+#     generate_event().create(1)
+generate_stuffs()

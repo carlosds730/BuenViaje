@@ -8,23 +8,23 @@ from BuenViajeWebPage.forms import ImageForm, EventsForm
 import BuenViajeWebPage.models as models
 
 
-class ExtraImagesInline(admin.StackedInline):
+class ExtraImagesInline(AdminImageMixin, admin.StackedInline):
     model = models.Extra_Images
     extra = 1
 
 
-class KeywordInline(admin.StackedInline):
+class KeywordInline(AdminImageMixin, admin.StackedInline):
     model = models.KeyWord
     fields = ['keywords', 'description', 'facebook_msg', 'twitter_msg', 'facebook_img', 'twitter_img']
     extra = 1
 
 
-class KeywordAdmin(admin.ModelAdmin):
+class KeywordAdmin(AdminImageMixin, admin.ModelAdmin):
     fields = ['keywords', 'description', 'facebook_msg', 'twitter_msg', 'facebook_img', 'twitter_img', 'is_index']
     list_display = ('__str__', 'is_index')
 
 
-class NoticiaInline(admin.StackedInline):
+class NoticiaInline(AdminImageMixin, admin.StackedInline):
     model = models.Noticia
     extra = 1
     # prepopulated_fields = {'slug': ('titulo',)}
@@ -42,13 +42,13 @@ class ComentarioImagenInline(AdminImageMixin, admin.StackedInline):
     fields = ['texto', 'fecha', 'usuario', 'recibir_notificaciones']
 
 
-class SeccionInlines(admin.TabularInline):
+class SeccionInlines(AdminImageMixin, admin.TabularInline):
     model = models.Seccion
     extra = 3
 
 
 class SeccionCubaInformacionGeneralInline(admin.StackedInline):
-    model = models.Secciones_Informacion_General
+    model = models.Secciones_informacion_general
     extra = 3
 
 
@@ -57,8 +57,9 @@ class AdminBanner(AdminImageMixin, admin.ModelAdmin):
 
 
 class AdminPublicidades(AdminImageMixin, admin.ModelAdmin):
-    list_display = ('nombre', 'sort_order')
+    list_display = ('nombre', 'sort_order', 'position', 'show')
     search_fields = ['nombre']
+    list_filter = ['position', 'show']
 
 
 class AdminSeccioLaRevista(admin.ModelAdmin):
@@ -144,8 +145,8 @@ class AdminRevista(AdminImageMixin, admin.ModelAdmin):
 
 class AdminNoticia(AdminImageMixin, admin.ModelAdmin):
     inlines = [KeywordInline, ExtraImagesInline, ComentarioNoticiasInline]
-    list_filter = ('blog', 'titulo', 'fecha_publicacion')
-    list_display = ('titulo', 'fecha_publicacion', 'admin_blog', 'Numero_comentarios')
+    list_filter = ('blog', 'position', 'fecha_publicacion')
+    list_display = ('titulo', 'fecha_publicacion', 'admin_blog', 'Numero_comentarios', 'position')
     search_fields = ['titulo', 'blog__nombre', 'fecha_publicacion']
     filter_horizontal = ['related_news']
     # prepopulated_fields = {'slug': ('titulo',)}

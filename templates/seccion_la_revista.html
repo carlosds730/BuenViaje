@@ -37,17 +37,19 @@
         </div>
         {% for x in secciones %}
 
-            <div class="media wow fadeInDown blogs">
+            <div class="media wow fadeInDown section col-md-4 col-lg-4 col-xs-12 col-sm-12">
                 <a href="#" data-toggle="modal"
                    data-target="#sectionModal{{ x.2 }}"
-                   class="media-left">
+                   class="media-middle">
                     <img alt="{{ x.0 }}"
                          src="{{ x.3 }}">
+
+                    <div>
+                        <h3 id="secciones_{{ x.2 }}">{{ x.0 }}</h3>
+                    </div>
                 </a>
 
-                <div class="media-body">
-                    <h3 id="secciones_{{ x.2 }}">{{ x.0 }}</h3>
-                </div>
+
             </div>
             <div class="modal fade modal_destinos" id="sectionModal{{ x.2 }}">
                 <div class="modal-dialog">

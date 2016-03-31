@@ -41,8 +41,8 @@ def calculate_all_data():
     blog_1_noticia = blog_1.noticias.order_by("-fecha_publicacion")[0]
 
     main = models.Publicidades.objects.filter(show=True, position='principal').order_by("sort_order")
-    first = models.Publicidades.objects.filter(show=True, position='p_bloque').order_by("sort_order")
-    second = models.Publicidades.objects.filter(show=True, position='s_bloque').order_by("sort_order")
+    first = models.Publicidades.objects.filter(show=True, position='p_bloque').order_by("sort_order")[:3]
+    second = models.Publicidades.objects.filter(show=True, position='s_bloque').order_by("sort_order")[:3]
 
     noticias = [(x.titulo, x.en_titulo, x.get_small_thumbnail("25x20").url, x.get_absolute_url()) for x in
                 models.Noticia.objects.filter(blog=None).order_by("-fecha_publicacion")[0:5]]
@@ -69,15 +69,15 @@ def calculate_all_data():
 def home_data_spanish():
     news_to_publish = models.Noticia.objects.filter(blog=None, position='principal').order_by("-fecha_publicacion",
                                                                                               "sort_order")
-    main_news = [(main_news.titulo, main_news.short_text, main_news.get_small_thumbnail("264x185").url,
+    main_news = [(main_news.titulo, main_news.short_text, main_news.get_small_thumbnail("710x375").url,
                   main_news.get_absolute_url(), main_news.id) for main_news in news_to_publish]
 
-    first = [(x.titulo, x.short_text, x.get_small_thumbnail("120x90").url, x.get_absolute_url(), x.id) for x in
+    first = [(x.titulo, x.short_text, x.get_small_thumbnail("280x190").url, x.get_absolute_url(), x.id) for x in
              models.Noticia.objects.filter(blog=None, position='p_bloque').order_by("-fecha_publicacion",
-                                                                                    "sort_order")]
+                                                                                    "sort_order")[:3]]
     second = [(x.titulo, x.get_small_thumbnail("120x90").url, x.get_absolute_url(), x.id) for x in
               models.Noticia.objects.filter(blog=None, position='s_bloque', show=True).order_by("-fecha_publicacion",
-                                                                                                "sort_order")]
+                                                                                                "sort_order")[:6]]
     main_event = models.Eventos.objects.get(presentacion=True)
     main_event = (
         main_event.titulo, main_event.short_texto, main_event.texto, main_event.get_small_thumbnail(), main_event.id)
@@ -912,24 +912,24 @@ def de_cuba(request):
         if language == "es":
             d = {
                 'language': "es",
-                'title_url': ("Información General", "/informacion_general/"),
-                'title_url_1': ("Información por destinos", "/informacion_destinos/")
+                'title_url': ("Información General", "/informacion-general/"),
+                'title_url_1': ("Información por destinos", "/informacion-destinos/")
             }
             d.update(data)
             return render(request, 'de_cuba.html', d)
         else:
             d = {
                 'language': "en",
-                'title_url': ("General Information", "/informacion_general/"),
-                'title_url_1': ("Information according to destination", "/informacion_destinos/")
+                'title_url': ("General Information", "/informacion-general/"),
+                'title_url_1': ("Information according to destination", "/informacion-destinos/")
             }
             d.update(data)
             return render(request, 'de_cuba_en.html', d)
     except KeyError:
         d = {
             'language': "es",
-            'title_url': ("Información General", "/informacion_general/"),
-            'title_url_1': ("Información por destinos", "/informacion_destinos/")
+            'title_url': ("Información General", "/informacion-general/"),
+            'title_url_1': ("Información por destinos", "/informacion-destinos/")
         }
         d.update(data)
         return render(request, 'de_cuba.html', d)

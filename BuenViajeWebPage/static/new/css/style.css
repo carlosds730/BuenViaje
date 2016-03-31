@@ -922,7 +922,8 @@ p > a {
 }
 
 .noticias img {
-    width: 120px;
+    width: 130px;
+    height: 100px;
 }
 
 .eventos {
@@ -941,6 +942,7 @@ p > a {
 
 .enlaces img {
     width: 80%;
+    max-height: 140px;
 }
 
 .enlaces a {
@@ -953,11 +955,23 @@ p > a {
     display: block;
 }
 
+.enlaces_second img {
+    max-height: 100px;
+}
+
 .blogs {
 
 }
 
-.blogs:after {
+.section {
+    text-align: center;
+}
+
+.section img {
+    max-width: 90%;
+}
+
+.blogs:after, .section:after, .modal-body:after {
     content: ' ';
     clear: both;
     display: block;

@@ -107,7 +107,7 @@
                 {% if informacion_general_cuba %}
                     {% for x in informacion_general_cuba %}
                         <div class="search_result">
-                            <h4><a href="/informacion_general/">Sección información General</a>
+                            <h4><a href="/informacion-general/">Sección información General</a>
                             </h4>
                         </div>
                     {% endfor %}
@@ -116,7 +116,7 @@
                     {% for x in informacion_general_cuba_secciones %}
                         <div class="search_result">
                             <h4>
-                                <a href="/informacion_general/#secciones_{{ x.pk }}">{{ x.titulo }}</a>
+                                <a href="/informacion-general/#secciones_{{ x.pk }}">{{ x.titulo }}</a>
                             </h4>
                         </div>
                     {% endfor %}
@@ -132,7 +132,7 @@
             <div class="eventos" style="border-bottom: 1px solid white">
                 {% for x in informacion_destinos %}
                     <div class="search_result">
-                        <h4><a href="/informacion_destinos/">{{ x.nombre }}</a></h4>
+                        <h4><a href="/informacion-destinos/">{{ x.nombre }}</a></h4>
                     </div>
                 {% endfor %}
             </div>

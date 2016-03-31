@@ -52,7 +52,7 @@ class KeyWord(models.Model):
                                                           help_text='Palabras claves usadas para las redes sociales',
                                                           blank=True, null=True)
 
-    seccion_cuba_informacion_general = models.ForeignKey(to='Seccion_Cuba_Informacion_General',
+    seccion_cuba_informacion_general = models.ForeignKey(to='Seccion_Cuba_informacion_general',
                                                          verbose_name=u'Seccion Cuba Información General',
                                                          related_name='keywords',
                                                          help_text='Palabras claves usadas para las redes sociales',
@@ -105,7 +105,12 @@ class Publicidades(models.Model):
                                 help_text=u'Define la posición en que será mostrada en la página principal')
 
     def get_small_thumbnail(self):
-        return get_thumbnail(self.imagen, "250x64", upscale=False).url
+        if self.position == "s_bloque":
+            return get_thumbnail(self.imagen, "272x100", upscale=False).url
+        elif self.position == "p_bloque":
+            return get_thumbnail(self.imagen, "272x140", upscale=False).url
+        else:
+            return get_thumbnail(self.imagen, "594x61", upscale=False).url
 
     def __str__(self):
         return self.nombre
@@ -157,7 +162,7 @@ class Seccion(models.Model):
                                            related_name='secciones', help_text='Sección asociada a la Sección Revista')
 
     def get_small_thumbnail(self):
-        return get_thumbnail(self.image, "225x250").url
+        return get_thumbnail(self.image, "185x245").url
 
     def get_big_thumbnail(self):
         return get_thumbnail(self.image, "400x400").url
@@ -201,7 +206,7 @@ class Seccion_Cuba_Informacion_General(models.Model):
         return str(self.id)
 
 
-class Secciones_Informacion_General(models.Model):
+class Secciones_informacion_general(models.Model):
     class Meta:
         verbose_name = 'Secciones de Informacion General'
         verbose_name_plural = 'Secciones de Informacion General'
@@ -215,7 +220,7 @@ class Secciones_Informacion_General(models.Model):
 
     en_texto = tinymce_models.HTMLField(verbose_name='Texto en ingles', help_text='Cuerpo de la seccion en ingles')
 
-    informacion_general = models.ForeignKey('Seccion_Cuba_Informacion_General', verbose_name='Informacion General',
+    informacion_general = models.ForeignKey('Seccion_Cuba_informacion_general', verbose_name='Informacion General',
                                             related_name='secciones')
 
     def __str__(self):
@@ -400,10 +405,10 @@ class Eventos(models.Model):
     presentacion = models.BooleanField(verbose_name='Presentacion', default=False,
                                        help_text='Si el evento saldra en la pagina inicial')
 
-    short_texto = models.TextField(verbose_name='Descripcion corta', max_length=200,
+    short_texto = models.TextField(verbose_name='Descripcion corta', max_length=600,
                                    help_text='Descripcion corta del evento', blank=True, null=True)
 
-    en_short_texto = models.TextField(verbose_name='Descripcion corta en Ingles', max_length=200,
+    en_short_texto = models.TextField(verbose_name='Descripcion corta en Ingles', max_length=600,
                                       help_text='Descripcion corta del evento en Ingles', blank=True, null=True)
 
     texto = tinymce_models.HTMLField(verbose_name='Descripcion', help_text='Descripcion del evento', blank=True,
@@ -528,7 +533,7 @@ class Noticia(models.Model):
     class Meta:
         verbose_name_plural = 'Noticias'
         verbose_name = 'Noticia'
-        ordering = ['fecha_publicacion']
+        ordering = ['-fecha_publicacion']
 
     titulo = models.CharField(verbose_name='Título', max_length=100, help_text='Título de la noticia')
 
@@ -541,10 +546,10 @@ class Noticia(models.Model):
 
     imagen = ImageField(verbose_name='Foto', upload_to='noticias', help_text='Foto de la noticia')
 
-    short_text = tinymce_models.HTMLField(verbose_name='Descripcion corta', max_length=200,
+    short_text = tinymce_models.HTMLField(verbose_name='Descripcion corta', max_length=600,
                                           help_text='Breve descripcion de la noticia')
 
-    en_short_text = tinymce_models.HTMLField(verbose_name='Descripcion corta en Ingles', max_length=200,
+    en_short_text = tinymce_models.HTMLField(verbose_name='Descripcion corta en Ingles', max_length=600,
                                              help_text='Breve descripcion de la noticia en Ingles')
 
     texto = tinymce_models.HTMLField(verbose_name='Descripcion', help_text='Descripcion de la noticia')
@@ -580,7 +585,7 @@ class Noticia(models.Model):
                                           help_text='Escoger las noticias relacionadas', blank=True, null=True)
 
     def get_small_thumbnail(self, sizes):
-        return get_thumbnail(self.imagen, sizes, upscale=False)
+        return get_thumbnail(self.imagen, sizes, upscale=True)
 
     def get_thumbnail_to_show(self):
         return get_thumbnail(self.imagen, "600x400", upscale=False)
