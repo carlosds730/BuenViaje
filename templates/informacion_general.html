@@ -1,5 +1,5 @@
 {% extends 'noticia.html' %}
-{% load url from future %}{% load thumbnail %}
+{% load thumbnail %}
 {% load staticfiles %}
 {% block title %}
     <title>Buen Viaje a Cuba - Información general</title>
@@ -20,7 +20,7 @@
         </div>
         {% for x in secciones %}
             <h3 id="secciones_{{ x.2 }}">{{ x.0 }}</h3>
-            <p>{{ x.1 }}</p>
+            {{ x.1|safe }}
         {% endfor %}
     </div>
 {% endblock %}

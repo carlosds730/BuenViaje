@@ -95,8 +95,8 @@ class Publicidades(models.Model):
 
     imagen = ImageField(verbose_name='Imagen', upload_to='publicidades', help_text='Foto de la publicidad')
 
-    sort_order = models.IntegerField(verbose_name='valor para ordernar',
-                                     help_text='Valor utilizado para ordenar las publicidades')
+    sort_order = models.PositiveIntegerField(verbose_name='valor para ordernar',
+                                             help_text='Valor utilizado para ordenar las publicidades')
     # DONE: Descomentar esto
     show = models.NullBooleanField(verbose_name='Mostrar', default=True,
                                    help_text='Indica si una publicidad es mostrada o no', blank=True, null=True)
@@ -126,7 +126,7 @@ class Seccion_La_Revista(models.Model):
     en_encabezado_revista = tinymce_models.HTMLField(verbose_name="Encabezado de sección Revista en Ingles",
                                                      help_text='Este es el encabezado de la sección revista en ingles')
 
-    encabezado_sección = tinymce_models.HTMLField(verbose_name='Encabezado de sección',
+    encabezado_seccion = tinymce_models.HTMLField(verbose_name='Encabezado de sección',
                                                   help_text='Este es el encabezado de la sección de la sección de revista')
 
     en_encabezado_sección = tinymce_models.HTMLField(verbose_name='Encabezado de sección en ingles',
@@ -481,9 +481,9 @@ class Revista(models.Model):
         verbose_name = 'Revista'
         ordering = ['numero']
 
-    numero = models.IntegerField(verbose_name='Numero', help_text='Numero de la revista')
+    numero = models.SmallIntegerField(verbose_name='Numero', help_text='Numero de la revista')
 
-    anho = models.IntegerField(verbose_name='Año', help_text='Año de la revista')
+    anho = models.PositiveIntegerField(verbose_name='Año', help_text='Año de la revista')
 
     idioma = models.CharField(verbose_name='Idioma', max_length=50, help_text='Idioma de la revista')
 
@@ -572,9 +572,10 @@ class Noticia(models.Model):
     show = models.BooleanField(verbose_name=u'Mostrar', default=True,
                                help_text=u'Define si una noticia será mostrada')
 
-    sort_order = models.IntegerField(verbose_name='Valor para ordenar',
-                                     help_text='Valor utilizado para ordenar las noticias del mismo dia', blank=True,
-                                     null=True)
+    sort_order = models.PositiveIntegerField(verbose_name='Valor para ordenar',
+                                             help_text='Valor utilizado para ordenar las noticias del mismo dia',
+                                             blank=True,
+                                             null=True)
     related_news = models.ManyToManyField(to='Noticia', verbose_name='Noticias relacionadas', related_name='news',
                                           help_text='Escoger las noticias relacionadas', blank=True, null=True)
 
@@ -596,7 +597,7 @@ class Noticia(models.Model):
 
     def save(self, *args, **kwargs):
         settings.NEED_TO_RECALCULATE = True
-        print(settings.NEED_TO_RECALCULATE)
+        # print(settings.NEED_TO_RECALCULATE)
         # print('Titulo %s, slug %s' % (self.titulo, self.slug))
         if self.slug:
             self.slug = slugify(self.titulo)
@@ -659,8 +660,8 @@ class Extra_Images(models.Model):
 
     alt = models.CharField(verbose_name='Descripción de la foto', max_length=100, help_text='Descripción de la foto')
 
-    sort_order = models.IntegerField(verbose_name='Valor para ordenar',
-                                     help_text='Valor utilizado para ordenar las fotos', blank=True,
-                                     null=True)
+    sort_order = models.PositiveIntegerField(verbose_name='Valor para ordenar',
+                                             help_text='Valor utilizado para ordenar las fotos', blank=True,
+                                             null=True)
 
     new = models.ForeignKey(to='Noticia', verbose_name='Noticia', related_name='extra_images')

@@ -1,5 +1,5 @@
 {% extends 'noticia.html' %}
-{% load url from future %}{% load thumbnail %}
+{% load thumbnail %}
 {% load staticfiles %}
 {% block title %}
     <title>Buen Viaje a Cuba - La revista</title>
@@ -47,10 +47,6 @@
 
                 <div class="media-body">
                     <h3 id="secciones_{{ x.2 }}">{{ x.0 }}</h3>
-                    <a href="{{ blog_0_noticia_url }}"
-                       class="catg_title">{{ blog_0_noticia.titulo }}</a>
-
-
                 </div>
             </div>
             <div class="modal fade modal_destinos" id="sectionModal{{ x.2 }}">

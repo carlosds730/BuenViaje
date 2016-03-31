@@ -25,6 +25,7 @@ class UserFixture(AutoFixture):
     * ``date_joined`` and ``last_login`` are always in the past and it is
       assured that ``date_joined`` will be lower than ``last_login``.
     '''
+
     class Values(object):
         username = generators.StringGenerator(
             max_length=30,
@@ -63,7 +64,7 @@ class UserFixture(AutoFixture):
 
     def unique_email(self, model, instance):
         if User.objects.filter(email=instance.email).exists():
-            raise autofixture.InvalidConstraint((get_field(model,'email'),))
+            raise autofixture.InvalidConstraint((get_field(model, 'email'),))
 
     def prepare_class(self):
         self.add_constraint(self.unique_email)
