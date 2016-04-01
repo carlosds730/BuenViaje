@@ -803,6 +803,9 @@ def noticia(request, slug):
             'allow_comments': news.allow_comments,
         }
 
+        if news.related_news:
+            a.update({'related': news.related_news.all()[:3]})
+
         try:
             if request.COOKIES['language'] == 'es':
                 d = {
@@ -860,7 +863,7 @@ def noticias(request):
             settings.NEED_TO_RECALCULATE = False
 
         news = {}
-        for x in models.Noticia.objects.filter(fecha_publicacion__year=now().year):
+        for x in models.Noticia.objects.filter(fecha_publicacion__year=now().year).order_by('-fecha_publicacion'):
             month = fix_month(x.fecha_publicacion.month)
             try:
                 news[month].append(x)

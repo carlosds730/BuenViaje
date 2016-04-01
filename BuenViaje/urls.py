@@ -36,8 +36,7 @@ urlpatterns += [
     url(r'^unsubscribe/?$',
         views.unsubscribe),
     url(
-        r'^noticia/(?P<slug>[-\w]+)/?$',
-        views.noticia),
+        r'^noticia/(?P<slug>[-\w]+)/?$', views.noticia, name='noticia'),
     url(r'^noticias/?$',
         views.noticias),
     url(r'^imagen/(?P<id>\d+)/?$',

@@ -10,12 +10,13 @@
     <div class="static_content">
         <ol class="breadcrumb">
             <li><a href="/">Inicio</a></li>
-            <li class="active">Tiempo Libre</li>
+            <li class="active">Propuestas</li>
         </ol>
         <div class="eventos">
             {% for x in actividades %}
                 {% if forloop.last %}
-                    <div class="evento tiempolibre_excusion media wow fadeInDown single_page_content" style="border-bottom: 0px">
+                    <div class="evento tiempolibre_excusion media wow fadeInDown single_page_content"
+                         style="border-bottom: 0px">
                         <div class="tiempolibre_excusion_titulo">
                             <img id="tiempolibre_excusion_logo{{ x.pk }}" src="">
                             <h4>{{ x.titulo }}</h4>

@@ -2372,7 +2372,7 @@ figure.effect-layla:hover img {
     margin-bottom: 1%;
 }
 
-.commentarios_form:after {
+.commentarios_form:after, .related_news:after {
     content: ' ';
     clear: both;
     display: block;
@@ -2831,4 +2831,16 @@ figure.effect-layla:hover img {
         width: 100%;
         margin-left: 0px;
     }
+}
+
+.related_news {
+    margin-bottom: 10px;
+}
+
+.related_news_container {
+    /*text-align: center;*/
+}
+
+.related_news_container h4 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;;
 }
