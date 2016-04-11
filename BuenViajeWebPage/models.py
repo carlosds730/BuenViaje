@@ -624,7 +624,6 @@ class Noticia(models.Model):
         super(Noticia, self).delete()
 
     def get_full_url(self):
-        print(web_page_url + self.get_absolute_url())
         return web_page_url + self.get_absolute_url()
 
 
