@@ -42,33 +42,33 @@
     <link href='https://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
 
     <!-- Bootstrap -->
-    <link href="{% static 'new/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'new/min/bootstrap.min.css' %}" rel="stylesheet">
     <!-- for fontawesome icon css file -->
     <link href="{% static 'new/css/font-awesome.min.css' %}" rel="stylesheet">
     <!-- for content animate css file -->
-    <link rel="stylesheet" href="{% static 'new/css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'new/min/animate.min.css' %}">
     <!-- google fonts  -->
     {#    <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>#}
     {#    <link href='http://fonts.googleapis.com/css?family=Varela' rel='stylesheet' type='text/css'>#}
     {#    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>#}
     <!-- for news ticker css file -->
-    <link href="{% static 'new/css/li-scroller.css' %}" rel="stylesheet">
+    <link href="{% static 'new/min/li-scroller.min.css' %}" rel="stylesheet">
     <!-- slick slider css file -->
-    <link href="{% static 'new/css/slick.css' %}" rel="stylesheet">
+    <link href="{% static 'new/min/slick.min.css' %}" rel="stylesheet">
     <!-- for fancybox slider -->
-    <link href="{% static 'new/css/jquery.fancybox.css' %}" rel="stylesheet">
+    <link href="{% static 'new/min/jquery.fancybox.min.css' %}" rel="stylesheet">
     <!-- website theme file -->
     <!-- <link href="css/theme-red.css" rel="stylesheet"> -->
 
-    <link href="{% static 'new/css/theme.css' %}" rel="stylesheet">
+    <link href="{% static 'new/min/theme.min.css' %}" rel="stylesheet">
     <!-- main site css file -->
     <link href="{% static 'new/css/style.css' %}" rel="stylesheet">
 
-
+    <script type="text/javascript" src="{% static 'new/js/jquery-1.12.3.min.js' %}"></script>
 
 
     {% block new_links %}
-        <link rel="stylesheet" href="{% static 'flex_images/jquery.flex-images.css' %}" type="text/css">
+        {#        <link rel="stylesheet" href="{% static 'flex_images/jquery.flex-images.css' %}" type="text/css">#}
     {% endblock %}
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -79,7 +79,17 @@
     <![endif]-->
 </head>
 <body>
-
+{% block facebook_button %}
+    <div id="fb-root"></div>
+    <script>(function (d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/es_ES/sdk.js#xfbml=1&version=v2.5";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+{% endblock %}
 <!-- Preloader -->
 <div id="preloader">
     <div id="status">&nbsp;</div>
@@ -103,19 +113,28 @@
                         </div>
 
                         <div class="right_thing">
-                            {% with publicidad=main.0 %}
-                                {#TODO: Here goes the Main publicity#}
-                                <div class="publicidad_top_holder">
-                                    {% if  publicidad.url %}
-                                        <a href="{{ publicidad.url }}" target="_blank"><img
-                                                id="publicidad_top_{{ publicidad.id }}"
-                                                alt="{{ publicidad.nombre }}" src=""></a>
-                                    {% else %}
-                                        <img id="publicidad_top_{{ publicidad.id }}"
-                                             alt="{{ publicidad.nombre }}" src="">
-                                    {% endif %}
+                            <div class="publicidad_top_holder slider_foto" id="main_publicity_container">
+                                <div class="slick_slider_pubs">
+                                    {% for publicidad in main %}
+
+                                        <div class="single_iteam">
+                                            {% if publicidad.url %}
+                                                <a href="{{ publicidad.url }}"><img
+                                                        data-lazy="{{ publicidad.get_small_thumbnail }}"
+                                                        id="publicidad_top_{{ publicidad.id }}"
+                                                        src=""
+                                                        alt="{{ publicidad.nombre }}"></a>
+                                            {% else %}
+                                                <img
+                                                        data-lazy="{{ publicidad.get_small_thumbnail }}"
+                                                        id="publicidad_top_{{ publicidad.id }}"
+                                                        src=""
+                                                        alt="{{ publicidad.nombre }}">
+                                            {% endif %}
+                                        </div>
+                                    {% endfor %}
                                 </div>
-                            {% endwith %}
+                            </div>
                             <div class="search_container">
                                 <form name="search" id="search_form" class="form-inline" action="/search/"
                                       method="post">{% csrf_token %}
@@ -244,10 +263,11 @@
             <div class="row">
                 <div class="col-lg-8 col-md-8 col-sm-8 foto_slider">
                     <!-- Set up your HTML -->
-                    <div class="slick_slider">
+                    <div class="slick_slider_news">
                         {% for x in noticias_principales %}
                             <div class="single_iteam">
-                                <a href="{{ x.3 }}"><img id="noticia_principal_{{ x.4 }}" src="" alt="{{ x.0 }}"></a>
+                                <a href="{{ x.3 }}"><img data-lazy="{{ x.2 }}" id="noticia_principal_{{ x.4 }}" src=""
+                                                         alt="{{ x.0 }}"></a>
 
                                 <div class="slider_article">
                                     <h2><a class="slider_tittle">{{ x.0 }}</a></h2>
@@ -816,26 +836,26 @@
 
 <!-- jQuery Library -->
 {#<script type="text/javascript" src="{% static 'js/jquery-1.10.2.js' %}"></script>#}
-<script type="text/javascript" src="{% static 'js/jquery-1.10.2.js' %}"></script>
+
 {#<script src="{% static 'new/js/jquery-1.10.2.min.js' %}"></script>#}
 <!-- For content animatin  -->
 <script src="{% static 'new/js/wow.min.js' %}"></script>
 <!-- bootstrap js file -->
-<script src="{% static 'new/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'new/min/bootstrap.min.js' %}"></script>
 <!-- slick slider js file -->
-<script src="{% static 'new/js/slick.min.js' %}"></script>
+<script src="{% static 'new/min/slick.min.js' %}"></script>
 
-<script type="text/javascript" src="{% static 'new/js/bootstrap-tooltip.js' %}"></script>
+<script type="text/javascript" src="{% static 'new/min/bootstrap-tooltip.min.js' %}"></script>
 <!-- news ticker jquery file -->
-<script src="{% static 'new/js/jquery.li-scroller.1.0.js' %}"></script>
+<script src="{% static 'new/min/jquery.li-scroller.1.0.min.js' %}"></script>
 <!-- for news slider -->
-<script src="{% static 'new/js/jquery.newsTicker.min.js' %}"></script>
+<script src="{% static 'new/min/jquery.newsTicker.min.js' %}"></script>
 <!-- for fancybox slider -->
-<script src="{% static 'new/js/jquery.fancybox.pack.js' %}"></script>
+<script src="{% static 'new/min/jquery.fancybox.pack.min.js' %}"></script>
 <!-- custom js file include -->
-<script src="{% static 'new/js/custom.js' %}"></script>
+<script src="{% static 'new/min/custom.min.js' %}"></script>
 
-<script type="text/javascript" src="{% static 'js/ajax_prep.js' %}"></script>
+<script type="text/javascript" src="{% static 'new/min/ajax_prep.min.js' %}"></script>
 
 <script>
     function hideTooltip(node_jq) {
@@ -927,14 +947,17 @@
 </script>
 <script>
     function uploadSomePics() {
-        {% if noticias_principales %}
-            {% for x in noticias_principales %}
-                document.getElementById("noticia_principal_{{ x.4 }}").src = "{{ x.2 }}";
-            {% endfor %}
-        {% endif %}
-        {% with publicidad=main.0 %}
-            document.getElementById("publicidad_top_{{ publicidad.id }}").src = "{{ publicidad.get_small_thumbnail }}";
-        {% endwith %}
+        {#        {% if noticias_principales %}#}
+        {#            {% for x in noticias_principales %}#}
+        {#                document.getElementById("noticia_principal_{{ x.4 }}").src = "{{ x.2 }}";#}
+        {#            {% endfor %}#}
+        {#        {% endif %}#}
+        {#        {% for publicidad in main %}#}
+        {#            document.getElementById("publicidad_top_{{ publicidad.id }}").src = "{{ publicidad.get_small_thumbnail }}";#}
+        {#        {% endfor %}#}
+        {#        {% with publicidad=main.0 %}#}
+        {#            document.getElementById("publicidad_top_{{ publicidad.id }}").src = "{{ publicidad.get_small_thumbnail }}";#}
+        {#        {% endwith %}#}
 
         {% for publicidad in first %}
             document.getElementById("publicidad{{ publicidad.id }}").src = "{{ publicidad.get_small_thumbnail }}";
@@ -942,10 +965,14 @@
         {% for publicidad in second %}
             document.getElementById("publicidad{{ publicidad.id }}").src = "{{ publicidad.get_small_thumbnail }}";
         {% endfor %}
-        {#        document.getElementById("directorio_eventos").src = "/static/img/Directorio Eventos2015_esp.jpg";#}
-        {#        {% for image in pics %}#}
-        {#            document.getElementById("foto_de_cuba{{ image.1 }}").src = "{{ image.0.url }}";#}
-        {#        {% endfor %}#}
+
+        main_publicities_array = [];
+        {% for pub in main %}
+            main_publicities_array.push(["{{ pub.nombre}}", "{{ pub.url }}", "{{ pub.get_small_thumbnail }}"]);
+        {% endfor %}
+
+        $("")
+
     }
 
 
@@ -990,6 +1017,24 @@
 
 <script>$(document).ready(function () {
     $('[rel=tooltip]').tooltip();
+    $('.slick_slider_pubs').slick({
+        infinite: true,
+        speed: 500,
+        fade: true,
+        cssEase: 'linear',
+        autoplay: true,
+        autoplaySpeed: 10000,
+        arrows: false,
+        lazyLoad: 'progressive',
+    });
+    $(".slick_slider_news").slick({
+        infinite: true,
+        autoplay: true,
+        speed: 750,
+        fade: true,
+        autoplaySpeed: 5000,
+        lazyLoad: 'progressive',
+    });
 });
 </script>
 {#This script upload the pictures#}

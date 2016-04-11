@@ -9,6 +9,7 @@ from django.conf import settings
 from BuenViajeWebPage.date_utils import edit_fecha, edit_fecha_evento, fix_month
 from django.utils.text import slugify
 from autoslug import AutoSlugField
+from BuenViaje.settings import WEB_PAGE_URL as web_page_url
 
 choices = [('principal', 'Principal'),
            ('p_bloque', 'Primer Bloque'),
@@ -621,6 +622,10 @@ class Noticia(models.Model):
         settings.NEED_TO_RECALCULATE = True
         print(settings.NEED_TO_RECALCULATE)
         super(Noticia, self).delete()
+
+    def get_full_url(self):
+        print(web_page_url + self.get_absolute_url())
+        return web_page_url + self.get_absolute_url()
 
 
 class Comentarios(models.Model):

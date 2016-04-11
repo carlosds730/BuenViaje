@@ -340,6 +340,9 @@ img:hover {
 .right_thing {
     width: 55%;
     float: right;
+    /*width: 51%;*/
+    /*position: absolute;*/
+    /*right: 45px;*/
 }
 
 #search_box {
@@ -907,7 +910,7 @@ p > a {
     margin-bottom: 8%;
 }
 
-.stuff:after {
+.stuff:after, .publicidad_top_holder:after {
     content: ' ';
     clear: both;
     display: block;
@@ -2813,6 +2816,7 @@ figure.effect-layla:hover img {
 .publicidad_top_holder {
     width: 100%;
     margin-bottom: 10px;
+    height: 61px;
 }
 
 .publicidad_top_holder img {
@@ -2843,4 +2847,16 @@ figure.effect-layla:hover img {
 
 .related_news_container h4 {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;;
+}
+
+.main_publicity_holder {
+    /*position: absolute;*/
+}
+
+.visible {
+    display: none;
+}
+
+.absolute {
+    position: absolute;
 }

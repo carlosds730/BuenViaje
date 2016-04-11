@@ -65,6 +65,10 @@
                                     class="fa fa-comment"></i></a>
                             <a id="number_comentarios">{{ number_comentarios }}</a>
                         {% endif %}
+                        <div class="fb-like" data-href="{{ noticia.get_full_url }}"
+                             data-layout="button_count" data-colorscheme="dark" data-action="like"
+                             data-show-faces="false"
+                             data-share="true"></div>
                         {#NOTDONE: Add Facebook´s like and Share buttons#}
                         {#NOTDONE: Add a counter of likes and shares (I believe this can be done eaisly with FaceBook´s API)#}
                     </div>
@@ -75,12 +79,13 @@
 
                         {{ noticia.texto|safe }}
                     </div>
+
                 </div>
                 {% if related %}
                     <div class="comentarios_content related_news">
                         <h3>Artículos relacionados</h3>
                         {% for x in related %}
-                            <div class="col-sm-3 col-sm-6 col-md-4 col-xs-6 related_news_container">
+                            <div class="col-sm-12 col-md-4 col-xs-12 col-lg-6 related_news_container">
                                 <a href="{% url 'noticia' x.slug %}"><h4>{{ x.titulo }}</h4></a>
                             </div>
                         {% endfor %}
