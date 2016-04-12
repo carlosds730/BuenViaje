@@ -135,7 +135,7 @@ class Seccion_La_Revista(models.Model):
     encabezado_seccion = tinymce_models.HTMLField(verbose_name='Encabezado de sección',
                                                   help_text='Este es el encabezado de la sección de la sección de revista')
 
-    en_encabezado_sección = tinymce_models.HTMLField(verbose_name='Encabezado de sección en ingles',
+    en_encabezado_seccion = tinymce_models.HTMLField(verbose_name='Encabezado de sección en ingles',
                                                      help_text='Este es el encabezado de la sección de la sección de revista en ingles')
 
     def __str__(self):

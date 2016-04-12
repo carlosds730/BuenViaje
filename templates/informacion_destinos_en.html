@@ -2,18 +2,21 @@
 {% load thumbnail %}
 {% load staticfiles %}
 {% block title %}
-    <title>Buen Viaje a Cuba - Information according to destination</title>
+    <title>Buen Viaje a Cuba - Information by provinces</title>
 {% endblock %}
 
 {% block content_content %}
     <div class="static_content">
         <ol class="breadcrumb">
-            <li><a href="/?language=es">Home</a></li>
-            <li><a href="/informacion-de-cuba/?language=en">About Cuba</a></li>
-            <li class="active">Information according to destination</li>
+            <li><a href="/">Home</a></li>
+            <li class="active">Cuba: Information by provinces</li>
         </ol>
+        <div class="fb-like" data-href="{{ web_page_url }}/informacion-destinos/"
+             data-layout="button_count" data-colorscheme="dark" data-action="like"
+             data-show-faces="false"
+             data-share="true"></div>
         <div class="title_containter">
-            <h2>Destination Information</h2>
+            <h2>Information by provinces</h2>
         </div>
         <div class="destinos">
             {% for x in destinos %}
@@ -21,16 +24,17 @@
                     <div class="image_left">
                         <img src="{{ x.1 }}">
                     </div>
-                    <h5>{{ x.0 }}</h5>
+                    <h3>{{ x.0 }}</h3>
 
-                    <p>{{ x.2 }}...<a href="#" data-toggle="modal" data-target="#myModal{{ x.4 }}">+See More</a></p>
+                    <p>{{ x.2 }}...<a href="#" data-toggle="modal" data-target="#myModal{{ x.4 }}">+See more</a></p>
                 </div>
                 {#DONE: Make my own modal. I don't like this one#}
                 <div class="modal fade modal_destinos" id="myModal{{ x.4 }}">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
                                 <h3 class="modal-title">{{ x.0 }}</h3>
                             </div>
                             <div style="text-align: center" class="modal-body">

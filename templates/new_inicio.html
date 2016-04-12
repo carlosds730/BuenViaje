@@ -1,5 +1,4 @@
 {% load staticfiles %}
-{% load webdesign %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -171,7 +170,7 @@
                     <ul class="nav navbar-nav main_nav">
                         <li class="active"><a href="/"><span class="fa fa-home desktop-home"></span><span
                                 class="mobile-show">Home</span></a></li>
-                        <li><a href="/la_revista/#go_here">La Revista</a></li>
+                        <li><a href="/la-revista/#go_here">La Revista</a></li>
 
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">De
@@ -184,29 +183,14 @@
                                     provincias</a></li>
                             </ul>
                         </li>
-                        {#                        <li class="dropdown">#}
-                        {#                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Imágenes</a>#}
-                        {#                            <ul class="dropdown-menu" role="menu">#}
-                        {#                                <li><a href="/imagenes/#go_here">Galería de fotos</a></li>#}
-                        {#                            </ul>#}
-                        {#                        </li>#}
                         <li><a href="/propuestas/#go_here">Propuestas</a></li>
-                        {#                        <li class="dropdown">#}
-                        {#                            <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Tiempo#}
-                        {#                                Libre</a>#}
-                        {#                            <ul class="dropdown-menu" role="menu">#}
-                        {#                                <li><a href="/tiempo_libre/#go_here">Excusiones</a></li>#}
-                        {#                            </ul>#}
-                        {#                        </li>#}
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Eventos</a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="/eventos/#go_here">Calendario</a></li>
-                                {#  DONE: Do that! Show events of next year#}
                                 <li><a href="/eventos-proximo-anho/#go_here">Próximo año</a></li>
                             </ul>
                         </li>
-                        {#                        <li><a href="/contactenos/#go_here">Contáctenos</a></li>#}
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Newsletter</a>
                             <ul class="dropdown-menu" role="menu">
@@ -232,7 +216,7 @@
                         <ul id="ticker01" class="news_sticker">
                             {% for new in noticias %}
                                 <li><a href="{{ new.3 }}#go_here"><img src="{{ new.2 }}"
-                                                                       alt="{{ new.1 }}">{{ new.0 }}
+                                                                       alt="{{ new.0 }}|{{ new.1 }}">{{ new.0 }}
                                 </a></li>
                             {% endfor %}
                         </ul>
@@ -242,11 +226,6 @@
                                                         target="_blank"></a></li>
                                 <li class="twitter"><a href="https://www.twitter.com/buenviajeacuba"
                                                        target="_blank"></a></li>
-                                {#                            <li class="flickr"><a href="#"></a></li>#}
-                                {#                            <li class="pinterest"><a href="#"></a></li>#}
-                                {#                            <li class="googleplus"><a href="#"></a></li>#}
-                                {#                            <li class="vimeo"><a href="#"></a></li>#}
-                                {#                            <li class="youtube"><a href="#"></a></li>#}
                                 <li class="mail"><a href="mailto:info@buenviajeacuba.com"></a></li>
                             </ul>
                         </div>
@@ -778,8 +757,8 @@
                         <div class="footer_widget wow fadeInLeftBig">
                             <h2>La Revista</h2>
                             <ul class="tag_nav">
-                                <li><a href="/la_revista/#distribucion_ferias">Distribución en ferias</a></li>
-                                <li><a href="/la_revista/#secciones_revista">Secciones</a></li>
+                                <li><a href="/la-revista/#distribucion_ferias">Distribución en ferias</a></li>
+                                <li><a href="/la-revista/#secciones_revista">Secciones</a></li>
                             </ul>
                         </div>
                     </div>

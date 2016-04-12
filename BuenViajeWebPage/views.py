@@ -20,6 +20,7 @@ from django.conf import settings
 from newsletter import models as md_newsletter
 from BuenViajeWebPage import models
 from BuenViajeWebPage.date_utils import fix_month
+from BuenViaje.settings import WEB_PAGE_URL as web_page_url
 
 
 def fix_months(collection):
@@ -63,6 +64,7 @@ def calculate_all_data():
         'last_revista': models.Revista.objects.order_by('-anho', '-numero')[0],
         'noticias': noticias,
         'mes': fix_month((now() + datetime.timedelta(days=7)).month),
+        'web_page_url': web_page_url,
     }
 
 
@@ -99,9 +101,9 @@ def home_data_spanish():
 def home_data_english():
     news_to_publish = models.Noticia.objects.filter(blog=None, position='principal').order_by("-fecha_publicacion",
                                                                                               "sort_order")
-    main_news = [(main_news.en_titulo, main_news.en_short_text, main_news.get_small_thumbnail("264x185").url,
+    main_news = [(main_news.en_titulo, main_news.en_short_text, main_news.get_small_thumbnail("710x375").url,
                   main_news.get_absolute_url(), main_news.id) for main_news in news_to_publish]
-    first = [(x.en_titulo, x.en_short_text, x.get_small_thumbnail("120x90").url, x.get_absolute_url(), x.id) for x in
+    first = [(x.en_titulo, x.en_short_text, x.get_small_thumbnail("280x190").url, x.get_absolute_url(), x.id) for x in
              models.Noticia.objects.filter(blog=None, position='p_bloque').order_by("-fecha_publicacion",
                                                                                     "sort_order")]
 
@@ -228,7 +230,7 @@ def la_revista(request):
                 return render(request, 'seccion_la_revista.html', d)
             else:
                 secciones = [
-                    (x.en_titulo, x.en_descripcion, x.pk, x.image, x.get_small_thumbnail(), x.get_big_thumbnail()) for x
+                    (x.en_titulo, x.en_descripcion, x.pk, x.get_small_thumbnail(), x.get_big_thumbnail()) for x
                     in revista.secciones.all()]
                 d = {
                     'language': 'en',
@@ -1379,7 +1381,7 @@ def search(request):
 
     if request.method == 'POST':
         language = 'en'
-        if request.POST['language'] == 'es':
+        if request.COOKIES['language'] == 'es':
             language = 'es'
         query_words = request.POST['query'].strip().split()
         if not len(query_words):

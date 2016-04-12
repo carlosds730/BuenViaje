@@ -6,6 +6,35 @@
 {% block title %}
     <title>Buen Viaje a Cuba - {{ noticia.en_titulo }}</title>
 {% endblock %}
+
+{% block metadata %}
+    {#    TODO: What goes here?#}
+    <link rel="canonical" href="http://www.buenviajeacuba.com/">
+    <meta name="keywords" content="{{ keyword.keywords }}"/>
+    <meta name="description" content="{{ keyword.description|safe }}">
+
+    <!-- for Facebook -->
+    <meta property="og:title" content="{{ noticia.en_titulo }}">
+    <meta property="og:site_name" content="Buen Viaje a Cuba">
+    <meta property="og:url" content="http://www.buenviajeacuba.com{{ noticia.get_absolute_url }}">
+    <meta property="og:description" content="{{ keyword.facebook_msg }}">
+    {% if keyword.facebook_img %}
+        <meta property="og:image" content="http://www.buenviajeacuba.com{{ keyword.facebook_img.url }}">
+    {% endif %}
+    <meta property="og:type" content="website">
+
+    <!-- for Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@buenviajeacuba">
+    <meta name="twitter:creator" content="@buenviajeacuba">
+    <meta name="twitter:title" content="{{ noticia.en_titulo }}">
+    <meta name="twitter:description"
+          content="{{ keyword.twitter_msg }}">
+    {% if keyword.twitter_img %}
+        <meta name="twitter:image"
+              content="http://www.buenviajeacuba.com{{ keyword.twitter_img.url }}">
+    {% endif %}
+{% endblock %}
 {% block new_links %}
     <link rel="stylesheet" href="{% static 'css/noticia.css' %}" type="text/css"/>
     {#    <script src="{% static 'new/js/jquery-1.10.2.min.js' %}"></script>#}
@@ -20,8 +49,7 @@
             {% block content_content %}
                 <div id="content_to_container">
                     <ol class="breadcrumb">
-                        <li><a href="/?language=en">Home</a></li>
-                        <li><a href="/noticias/?language=en">News</a></li>
+                        <li><a href="/">Home</a></li>
                         <li class="active">{{ noticia.en_titulo }}</li>
                     </ol>
                     <h1>{{ noticia.en_titulo }}</h1>
@@ -32,14 +60,17 @@
                             <span><i class="fa fa-comments"></i>{{ noticia.blog.en_nombre }}</span>
                         {% endif %}
                         {% if noticia.allow_comments %}
-                            <a id="number_comentarios_content" href="#comentarios_title"><i class="fa fa-comment"></i></a><a id="number_comentarios">{{ number_comentarios }}</a>
+                            <a id="number_comentarios_content" href="#comentarios_title"><i
+                                    class="fa fa-comment"></i></a>
+                            <a id="number_comentarios">{{ number_comentarios }}</a>
                         {% endif %}
-                        {#NOTDONE: Add Facebook´s like and Share buttons#}
-                        {#NOTDONE: Add a counter of likes and shares (I believe this can be done eaisly with FaceBook´s API)#}
+                        {#DONE: Add Facebook´s like and Share buttons#}
+                        {#DONE: Add a counter of likes and shares (I believe this can be done eaisly with FaceBook´s API)#}
                     </div>
                     <div class="media wow fadeInDown single_page_content">
                         {% if noticia.imagen %}
-                            <img id="noticia_img" class="img-center" src="{{ noticia.get_thumbnail_to_show.url }}" alt="{{ noticia.en_titulo }}">
+                            <img id="noticia_img" class="img-center" src="{{ noticia.get_thumbnail_to_show.url }}"
+                                 alt="{{ noticia.en_titulo }}">
                         {% endif %}
 
                         {{ noticia.en_texto|safe }}
@@ -65,11 +96,13 @@
                         {% endif %}
 
                         <form name="comment_form" id="comment_form" class="form-inline commentarios_form" action="/">
-                            <textarea id="textarea" name="textarea" class="textarea form-control" rows="3" cols="50" placeholder="Write a comment"></textarea>
+                            <textarea id="textarea" name="textarea" class="textarea form-control" rows="3" cols="50"
+                                      placeholder="Write a comment"></textarea>
                             <input id="POST-name" class="form-control" type="text" name="name" placeholder="Name">
                             <input id="POST-email" class="form-control" type="email" name="email" placeholder="Email">
                             <input type="submit" class="form-control btn default-btn" id="submit" value="Comment">
-                            <input type="checkbox" class="form-control checkbox" id="checkbox" placeholder="Receive Notifications">
+                            <input type="checkbox" class="form-control checkbox" id="checkbox"
+                                   placeholder="Receive Notifications">
                             <a>Receive Notifications</a>
                             <a id="message"></a>
                         </form>
@@ -87,8 +120,9 @@
         <a href="{{ last_revista.url.url }}" class="sideAdd last_edition" style="width: 100%; text-align: center">
             <img src="{{ last_revista.get_small_thumbnail }}" alt="img">
         </a>
-        <strong><a href="{{ last_revista.url.url }}"><p>Issue {{ last_revista.numero }} Year {{ last_revista.anho }}</p></a></strong>
-        <a href="/numeros-anteriores/?language=en#go_here">Latest editions</a>
+        <strong><a href="{{ last_revista.url.url }}"><p>Issue {{ last_revista.numero }} Year {{ last_revista.anho }}</p>
+        </a></strong>
+        <a href="/numeros-anteriores/#go_here">Latest editions</a>
     </div>
 
 
@@ -181,10 +215,23 @@
                     a = a.id;
                 }
                 if (check == true) {
-                    var request = $.post("/ajax_noticias/" + {{ id }} +"/", {texto: trext, nombre: nombre, email: email, pk_last_comment: a, noti: "true", language: 'en'});
+                    var request = $.post("/ajax_noticias/" + {{ id }} +"/", {
+                        texto: trext,
+                        nombre: nombre,
+                        email: email,
+                        pk_last_comment: a,
+                        noti: "true",
+                        language: 'en'
+                    });
                 }
                 else {
-                    var request = $.post("/ajax_noticias/" + {{ id }} +"/", {texto: trext, nombre: nombre, email: email, pk_last_comment: a, language: 'en'});
+                    var request = $.post("/ajax_noticias/" + {{ id }} +"/", {
+                        texto: trext,
+                        nombre: nombre,
+                        email: email,
+                        pk_last_comment: a,
+                        language: 'en'
+                    });
                 }
                 {#            var request = $.post("/ajax_noticias/" + {{ id }} +"/", {texto: trext, nombre: nombre, email: email, pk_last_comment: a, noti: check.toString()});#}
                 request.done(function (data) {

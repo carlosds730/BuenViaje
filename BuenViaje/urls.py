@@ -47,7 +47,7 @@ urlpatterns += [
     url(r'^photo/?$', views.photo),
     url(r'^eventos-proximo-anho/?$',
         views.proximo_anho),
-    url(r'^la_revista/?$',
+    url(r'^la-revista/?$',
         views.la_revista),
     url(r'^distribucion/?$',
         views.distribucion),

@@ -8,24 +8,71 @@
 {% block content_content %}
     <div class="static_content">
         <ol class="breadcrumb">
-            <li><a href="/?language=en">Home</a></li>
+            <li><a href="/">Home</a></li>
             <li class="active">The Magazine</li>
         </ol>
+        <div class="fb-like" data-href="{{ web_page_url }}/la-revista/"
+             data-layout="button_count" data-colorscheme="dark" data-action="like"
+             data-show-faces="false"
+             data-share="true"></div>
         <div class="title_containter">
             <h2>The Magazine</h2>
         </div>
         <div class="text_containter">
-            {{ encabezado|safe }}
+            <p>{{ encabezado|safe }}</p>
         </div>
-        <div class="title_containter">
-            <h2>Sections</h2>
+        <div id="distribucion_ferias" class="title_containter">
+            <h2>Distribution {{ anho }}</h2>
+        </div>
+        <div class="media wow fadeInDown single_page_content">
+            <img class="img-center" src="{{ imagen }}" alt="img">
+        </div>
+        <div class="text_containter">
+            {{ encabezado_distribucion|safe }}
+        </div>
+        <div class="text_containter">
+            {{ texto|safe }}
+        </div>
+        <div id="secciones_revista" class="title_containter">
+            <h2>Secciones</h2>
         </div>
         <div class="text_containter">
             {{ encabezado_seccion|safe }}
         </div>
         {% for x in secciones %}
-            <h3 id="secciones_{{ x.2 }}">{{ x.0 }}</h3>
-            <p>{{ x.1 }}</p>
+
+            <div class="media wow fadeInDown section col-md-4 col-lg-4 col-xs-12 col-sm-12">
+                <a href="#" data-toggle="modal"
+                   data-target="#sectionModal{{ x.2 }}"
+                   class="media-middle">
+                    <img alt="{{ x.0 }}"
+                         src="{{ x.3 }}">
+
+                    <div>
+                        <h3 id="secciones_{{ x.2 }}">{{ x.0 }}</h3>
+                    </div>
+                </a>
+
+
+            </div>
+            <div class="modal fade modal_destinos" id="sectionModal{{ x.2 }}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3 class="modal-title">{{ x.0 }}</h3>
+                        </div>
+                        <div class="modal-body">
+                            <div style="text-align: center">
+                                <img style="float: left; margin-bottom: 0px; margin-right: 13px"
+                                     src="{{ x.3 }}"
+                                     alt="{{ x.0 }}">
+                            </div>
+                            {{ x.1|safe }}
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
     </div>
 {% endblock %}
