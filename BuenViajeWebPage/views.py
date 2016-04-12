@@ -1373,7 +1373,7 @@ def match(query, text):
     return False
 
 
-# TODO: Just search in active months
+# DONE: Just search in active months
 def search(request):
     if settings.NEED_TO_RECALCULATE:
         recalculate_all_data()
