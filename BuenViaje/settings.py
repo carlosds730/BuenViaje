@@ -164,7 +164,7 @@ THUMBNAIL_ENGINE = 'sorl.thumbnail.engines.wand_engine.Engine'
 
 THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.cached_db_kvstore.KVStore'
 
-THUMBNAIL_DEBUG = False
+THUMBNAIL_DEBUG = True
 
 # OTHER SETTINGS
 NEED_TO_RECALCULATE = True
