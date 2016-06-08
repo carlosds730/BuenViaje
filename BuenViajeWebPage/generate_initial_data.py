@@ -130,12 +130,12 @@ def generate_event():
 
 def generate_stuffs():
     # generate_news().create(10)
-    # generate_news("principal", blog=None, size=((710, 375),)).create(5)
-    # generate_news("p_bloque", blog=None).create(10)
-    # generate_news("s_bloque", blog=None, size=((130, 100),)).create(10)
+    generate_news("principal", blog=None, size=((710, 375),)).create(5)
+    generate_news("p_bloque", blog=None).create(10)
+    generate_news("s_bloque", blog=None, size=((130, 100),)).create(10)
     generate_publicitiy("principal", size=((594, 61),)).create(4)
-    # generate_publicitiy("p_bloque", size=((272, 140),)).create(9)
-    # generate_publicitiy("s_bloque", size=((272, 100),)).create(9)
+    generate_publicitiy("p_bloque", size=((272, 140),)).create(9)
+    generate_publicitiy("s_bloque", size=((272, 100),)).create(9)
 
 
 # generate_section(num_par=1).create(10)
