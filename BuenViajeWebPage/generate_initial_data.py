@@ -25,6 +25,7 @@ def generate_random_date(init_date=datetime.now(), end_date=datetime.now()):
     return datetime.now()
 
 
+
 # TODO: When blog=False, try to assign the news randomly to a blog or to None
 # TODO: Try to generate random positions
 def generate_news(position, num_par=False, blog=False, size=False):
