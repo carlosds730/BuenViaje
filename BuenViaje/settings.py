@@ -174,3 +174,4 @@ SITE_ID = 1
 # WEB_PAGE_URL = ""
 
 WEB_PAGE_URL = "http://www.buenviajeacuba.com"
+
