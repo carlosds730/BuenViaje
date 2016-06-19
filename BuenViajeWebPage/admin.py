@@ -146,7 +146,7 @@ class AdminRevista(AdminImageMixin, admin.ModelAdmin):
 class AdminNoticia(AdminImageMixin, admin.ModelAdmin):
     inlines = [KeywordInline, ExtraImagesInline, ComentarioNoticiasInline]
     list_filter = ('blog', 'position', 'fecha_publicacion', 'show')
-    list_display = ('titulo', 'fecha_publicacion', 'admin_blog', 'Numero_comentarios', 'position')
+    list_display = ('titulo', 'fecha_publicacion', 'admin_blog', 'Numero_comentarios', 'position', 'show')
     search_fields = ['titulo', 'blog__nombre', 'fecha_publicacion']
     filter_horizontal = ['related_news']
     # prepopulated_fields = {'slug': ('titulo',)}
