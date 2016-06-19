@@ -46,7 +46,7 @@ def calculate_all_data():
     second = models.Publicidades.objects.filter(show=True, position='s_bloque').order_by("sort_order")[:3]
 
     noticias = [(x.titulo, x.en_titulo, x.get_small_thumbnail("25x20").url, x.get_absolute_url()) for x in
-                models.Noticia.objects.filter(blog=None).order_by("-fecha_publicacion")[0:5]]
+                models.Noticia.objects.filter(blog=None, show=True).order_by("-fecha_publicacion")[0:5]]
 
     return {
         'newsletter': newsletter,
@@ -69,14 +69,15 @@ def calculate_all_data():
 
 
 def home_data_spanish():
-    news_to_publish = models.Noticia.objects.filter(blog=None, position='principal').order_by("-fecha_publicacion",
-                                                                                              "sort_order")
+    news_to_publish = models.Noticia.objects.filter(blog=None, position='principal', show=True).order_by(
+        "-fecha_publicacion",
+        "sort_order")
     main_news = [(main_news.titulo, main_news.short_text, main_news.get_small_thumbnail("710x375").url,
                   main_news.get_absolute_url(), main_news.id) for main_news in news_to_publish]
 
     first = [(x.titulo, x.short_text, x.get_small_thumbnail("280x190").url, x.get_absolute_url(), x.id) for x in
-             models.Noticia.objects.filter(blog=None, position='p_bloque').order_by("-fecha_publicacion",
-                                                                                    "sort_order")[:3]]
+             models.Noticia.objects.filter(blog=None, position='p_bloque', show=True).order_by("-fecha_publicacion",
+                                                                                               "sort_order")[:3]]
     second = [(x.titulo, x.get_small_thumbnail("120x90").url, x.get_absolute_url(), x.id) for x in
               models.Noticia.objects.filter(blog=None, position='s_bloque', show=True).order_by("-fecha_publicacion",
                                                                                                 "sort_order")[:6]]
