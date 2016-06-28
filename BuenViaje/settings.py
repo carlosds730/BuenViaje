@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'BuenViajeWebPage',
     'tinymce',
     'django_extensions'
-
 ]
 
 MIDDLEWARE_CLASSES = [

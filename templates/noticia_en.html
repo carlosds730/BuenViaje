@@ -20,8 +20,10 @@
     <meta property="og:description" content="{{ keyword.facebook_msg }}">
     {% if keyword.facebook_img %}
         <meta property="og:image" content="http://www.buenviajeacuba.com{{ keyword.facebook_img.url }}">
+        <meta property="og:image:width" content="{{ keyword.facebook_img.width }}">
+        <meta property="og:image:height" content="{{ keyword.facebook_img.height }}">
     {% endif %}
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="article">
 
     <!-- for Twitter -->
     <meta name="twitter:card" content="summary_large_image">
