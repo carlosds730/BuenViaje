@@ -55,15 +55,17 @@
                     <h1>{{ noticia.titulo }}</h1>
 
                     <div class="post_commentbox social">
-                        <span><i class="fa fa-calendar"></i>{{ noticia.fecha_publicacion }}</span>
-                        {% if noticia.blog %}
-                            <span><i class="fa fa-comments"></i>{{ noticia.blog.nombre }}</span>
-                        {% endif %}
-                        {% if noticia.allow_comments %}
-                            <a id="number_comentarios_content" href="#comentarios_title"><i
-                                    class="fa fa-comment"></i></a>
-                            <a id="number_comentarios">{{ number_comentarios }}</a>
-                        {% endif %}
+                        <div class="date_containers">
+                            <span><i class="fa fa-calendar"></i>{{ noticia.fecha_publicacion }}</span>
+                            {% if noticia.blog %}
+                                <span><i class="fa fa-comments"></i>{{ noticia.blog.nombre }}</span>
+                            {% endif %}
+                            {% if noticia.allow_comments %}
+                                <a id="number_comentarios_content" href="#comentarios_title"><i
+                                        class="fa fa-comment"></i></a>
+                                <a id="number_comentarios">{{ number_comentarios }}</a>
+                            {% endif %}
+                        </div>
                         <span class="Facebook">
                             <div class="fb-like" data-href="{{ noticia.get_full_url }}"
                                  data-layout="button_count" data-colorscheme="dark" data-action="like"
