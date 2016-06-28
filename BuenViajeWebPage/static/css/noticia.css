@@ -1,13 +1,33 @@
-.comentario{
+.comentario {
     border-bottom: 1px solid grey;
     display: none;
 }
 
-#see_more{
+#see_more {
 
 }
 
-#see_more:hover{
+#see_more:hover {
     cursor: pointer;
 }
 
+/* This gets Google to fall into place */
+.social {
+    font-size: 1px;
+}
+
+/* This gets Facebook to fall into place */
+.social iframe {
+    vertical-align: bottom;
+}
+
+/* Set an optional width for your button wrappers */
+.social span {
+    display: inline-block;
+    width: 110px;
+}
+
+/* Adjust the widths individually if you like */
+.social .google {
+    width: 75px;
+}
