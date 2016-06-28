@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'xjiv=g@u1vuyif=an13d!tqopmd(9dq38f*!_6=&ku@whz6!a3'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# SECURITY WARNING: don't run with debug turned  on in production!
 DEBUG = False
 
 ALLOWED_HOSTS = ['.buenviajeacuba.com', '.buenviajeacuba.es']
