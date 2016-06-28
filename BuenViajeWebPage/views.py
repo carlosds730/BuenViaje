@@ -1264,57 +1264,49 @@ def ajax_noticias(request, id):
 # DONE: Do the template!!!!!!
 def send_mails(current_news, id_comentario, lang):
     try:
-        connection = get_connection()
-        connection.open()
+        from django.contrib.auth.models import User
+
         to_send = get_user_notify(current_news)
         comment = models.Comentarios.objects.get(pk=id_comentario)
+
         html = get_template('email.html')
+        publicacion = []
+        img = False
+
+        if comment.noticia:
+            publicacion = comment.noticia
+        elif comment.imagen:
+            img = True
+            publicacion = comment.imagen
+
+        context = generate_context(comment, img, publicacion)
+
+        connection = get_connection()
+
+        messages = []
+
+        html_message = html.render(context)
+
+        message = EmailMultiAlternatives(
+            u'Nuevo comentario', comment.texto,
+            from_email='Buen Viaje a Cuba <buenviajeacuba@buenviajeacuba.com>',
+            to=[x.email for x in User.objects.filter(is_superuser=True)], connection=connection
+        )
+
+        message.attach_alternative(
+            html_message,
+            "text/html"
+        )
+
+        messages.append(message)
 
         for x in to_send:
-            print(x)
-            publicacion = []
-            img = False
             user = x[2]
 
             if user == comment.usuario:
                 continue
 
-            if comment.noticia:
-                publicacion = comment.noticia
-            elif comment.imagen:
-                img = True
-                publicacion = comment.imagen
-
-            context = Context({
-                'site': settings.WEB_PAGE_URL,
-                'comentario': comment.texto,
-                'publicacion': publicacion
-            })
-
-            if lang == "es":
-                if img and publicacion.usuario == user:
-                    a = {
-                        'language': "es",
-                        'texto': comment.usuario.nombre + u" ha hecho un comentario en una foto subida por usted:",
-                    }
-                else:
-                    a = {
-                        'language': "es",
-                        'texto': comment.usuario.nombre + u" ha hecho un comentario en una publiación que usted ha comentado:",
-                    }
-            else:
-                if img and publicacion.usuario == user:
-                    a = {
-                        'language': lang,
-                        'texto': comment.usuario.nombre + u" has made a comment on a picture uploaded by you:",
-                    }
-                else:
-                    a = {
-                        'language': lang,
-                        'texto': comment.usuario.nombre + u" has made a comment on a publication you commented before:",
-                    }
-
-            context.update(a)
+            context = generate_context(comment=comment, img=img, lang=lang, publicacion=publicacion, user=user)
 
             html_message = html.render(context)
 
@@ -1328,16 +1320,51 @@ def send_mails(current_news, id_comentario, lang):
                 html_message,
                 "text/html"
             )
-            try:
-                message.send()
-                print('correo enviado a ' + x[0] + "<" + x[1] + ">")
-            except Exception as e:
-                print(e.message)
+            messages.append(message)
 
-        connection.close()
+        connection.send_messages(messages)
 
     except Exception as e:
-        print(e.message)
+        print(e)
+
+
+def generate_context(comment, img, publicacion, lang='es', user=False):
+    context = {
+        'site': settings.WEB_PAGE_URL,
+        'comentario': comment.texto,
+        'publicacion': publicacion
+    }
+    if user:
+        if lang == "es":
+            if img and publicacion.usuario == user:
+                a = {
+                    'language': "es",
+                    'texto': comment.usuario.nombre + u" ha hecho un comentario en una foto subida por usted:",
+                }
+            else:
+                a = {
+                    'language': "es",
+                    'texto': comment.usuario.nombre + u" ha hecho un comentario en una publiación que usted ha comentado:",
+                }
+        else:
+            if img and publicacion.usuario == user:
+                a = {
+                    'language': lang,
+                    'texto': comment.usuario.nombre + u" has made a comment on a picture uploaded by you:",
+                }
+            else:
+                a = {
+                    'language': lang,
+                    'texto': comment.usuario.nombre + u" has made a comment on a publication you commented before:",
+                }
+    else:
+        a = {
+            'language': "es",
+            'texto': "{user_name} ha hecho un comentario en la noticia {news_title}".format(
+                user_name=comment.usuario.nombre, news_title=publicacion.titulo),
+        }
+    context.update(a)
+    return context
 
 
 def contains(elemnto, lista):

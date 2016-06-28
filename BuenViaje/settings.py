@@ -22,9 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'xjiv=g@u1vuyif=an13d!tqopmd(9dq38f*!_6=&ku@whz6!a3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.buenviajeacuba.com', '.buenviajeacuba.es']
 
 # Application definition
 
@@ -138,9 +138,10 @@ EMAIL_USE_TLS = True
 
 EMAIL_HOST_PASSWORD = 'irv1974'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#
-# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'emails')  # change this to a proper location
 
