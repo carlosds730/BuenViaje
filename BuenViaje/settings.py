@@ -24,7 +24,7 @@ SECRET_KEY = 'xjiv=g@u1vuyif=an13d!tqopmd(9dq38f*!_6=&ku@whz6!a3'
 # SECURITY WARNING: don't run with debug turned  on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['buenviajeacuba.com', 'buenviajeacuba.es', 'www.buenviajeacuba.com', 'www.buenviajeacuba.es']
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
