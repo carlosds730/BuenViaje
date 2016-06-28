@@ -22,12 +22,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'xjiv=g@u1vuyif=an13d!tqopmd(9dq38f*!_6=&ku@whz6!a3'
 
 # SECURITY WARNING: don't run with debug turned  on in production!
-DEBUG = True
+DEBUG = False
 
-if DEBUG:
-    ALLOWED_HOSTS = ['.buenviajeacuba.com', '.buenviajeacuba.es']
-else:
-    ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['buenviajeacuba.com', 'buenviajeacuba.es', 'www.buenviajeacuba.com', 'www.buenviajeacuba.es']
 
 # Application definition
 
