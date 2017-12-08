@@ -212,7 +212,7 @@ def la_revista(request):
         try:
             dist = models.Seccion_Distribucion.objects.get(anho=n.year)
         except models.Seccion_Distribucion.DoesNotExist:
-            dist = models.Seccion_Distribucion.objects.get(anho=2015)
+            dist = models.Seccion_Distribucion.objects.get(anho=2016)
         try:
             if request.COOKIES['language'] == 'es':
                 secciones = [(x.titulo, x.descripcion, x.pk, x.get_small_thumbnail(), x.get_big_thumbnail()) for x in
